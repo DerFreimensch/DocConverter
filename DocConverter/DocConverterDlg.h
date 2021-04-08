@@ -31,4 +31,8 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	// Кнопка конвертирования текста в окне ввода
+	CButton m_button_convert;
+	afx_msg void OnBnClickedButton1();
 };

@@ -59,12 +59,14 @@ CDocConverterDlg::CDocConverterDlg(CWnd* pParent /*=nullptr*/)
 void CDocConverterDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_BUTTON1, m_button_convert);
 }
 
 BEGIN_MESSAGE_MAP(CDocConverterDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BUTTON1, &CDocConverterDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -153,3 +155,12 @@ HCURSOR CDocConverterDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CDocConverterDlg::OnBnClickedButton1()
+{
+	// TODO: добавьте свой код обработчика уведомлений
+	AfxMessageBox(L" Nice ");
+
+	
+}
