@@ -52,6 +52,7 @@ END_MESSAGE_MAP()
 
 CDocConverterDlg::CDocConverterDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DOCCONVERTER_DIALOG, pParent)
+	, m_text(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -60,6 +61,8 @@ void CDocConverterDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_BUTTON1, m_button_convert);
+	DDX_Control(pDX, IDC_EDIT1, m_textbox);
+	DDX_Text(pDX, IDC_EDIT1, m_text);
 }
 
 BEGIN_MESSAGE_MAP(CDocConverterDlg, CDialogEx)
@@ -67,6 +70,7 @@ BEGIN_MESSAGE_MAP(CDocConverterDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CDocConverterDlg::OnBnClickedButton1)
+	ON_EN_CHANGE(IDC_EDIT1, &CDocConverterDlg::OnEnChangeEdit1)
 END_MESSAGE_MAP()
 
 
@@ -160,7 +164,19 @@ HCURSOR CDocConverterDlg::OnQueryDragIcon()
 void CDocConverterDlg::OnBnClickedButton1()
 {
 	// TODO: добавьте свой код обработчика уведомлений
-	AfxMessageBox(L" Nice ");
+	
+	AfxMessageBox(m_text);
+	
+}
 
+
+void CDocConverterDlg::OnEnChangeEdit1()
+{
+	// TODO:  Если это элемент управления RICHEDIT, то элемент управления не будет
+	// send this notification unless you override the CDialogEx::OnInitDialog()
+	// функция и вызов CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
+
+	// TODO:  Добавьте код элемента управления
 	
 }

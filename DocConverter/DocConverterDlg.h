@@ -35,4 +35,7 @@ public:
 	// Кнопка конвертирования текста в окне ввода
 	CButton m_button_convert;
 	afx_msg void OnBnClickedButton1();
+	CEdit m_textbox;
+	afx_msg void OnEnChangeEdit1();
+	CString m_text;
 };
