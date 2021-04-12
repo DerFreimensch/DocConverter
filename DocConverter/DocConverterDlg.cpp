@@ -68,6 +68,7 @@ void CDocConverterDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDocConverterDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
+	ON_WM_SIZE(IDC_BUTTON1, &CDocConverterDlg::OnSize)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CDocConverterDlg::OnBnClickedButton1)
 	ON_EN_CHANGE(IDC_EDIT1, &CDocConverterDlg::OnEnChangeEdit1)
@@ -159,6 +160,12 @@ HCURSOR CDocConverterDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void  CDocConverterDlg::OnSize(UINT nType, int cx, int cy){
+	CDialog::OnSize(nType, cx, cy);
+	CRect cr;
+	GetWindowRect(cr);
+	MoveWindow(0, 0, cx, cy);
+}
 
 
 void CDocConverterDlg::OnBnClickedButton1()

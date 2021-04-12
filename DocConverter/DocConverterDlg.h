@@ -38,4 +38,5 @@ public:
 	CEdit m_textbox;
 	afx_msg void OnEnChangeEdit1();
 	CString m_text;
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
