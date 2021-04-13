@@ -1,15 +1,17 @@
-#include "Change.h"
+
 #include "pch.h"
 #include <string>
+#include <iostream>
+
 Plan::Plan() {
 	Name = "Empty";
 	This_Week = "Empty";
 	Next_Week = "Empty";
 }
-void Plan::Read() {
-	NameFunc();
-	This_WeekFunc();
-	Next_WeekFunc();
+void Plan::Read(CString buffer) {
+	NameFunc(buffer);
+	This_WeekFunc(buffer);
+	Next_WeekFunc(buffer);
 }
 void Plan::SetName(std::string A) {
 	Name.clear();
@@ -32,12 +34,14 @@ std::string Plan::GetThis_Week() {
 std::string Plan::GetNext_Week() {
 	return Next_Week;
 }
-void Plan::NameFunc() {
-
+void Plan::NameFunc(CString buffer) {
+	
+	
+	
 }
-void Plan::This_WeekFunc() {
-
+void Plan::This_WeekFunc(CString buffer) {
+	std::cout << "It works2" << std::endl;
 }
-void Plan::Next_WeekFunc() {
-
+void Plan::Next_WeekFunc(CString buffer) {
+	std::cout << "It works3" << std::endl;
 }

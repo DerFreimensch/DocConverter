@@ -68,7 +68,7 @@ void CDocConverterDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDocConverterDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
-	ON_WM_SIZE(IDC_BUTTON1, &CDocConverterDlg::OnSize)
+	ON_WM_SIZE()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CDocConverterDlg::OnBnClickedButton1)
 	ON_EN_CHANGE(IDC_EDIT1, &CDocConverterDlg::OnEnChangeEdit1)
@@ -164,15 +164,21 @@ void  CDocConverterDlg::OnSize(UINT nType, int cx, int cy){
 	CDialog::OnSize(nType, cx, cy);
 	CRect cr;
 	GetWindowRect(cr);
-	MoveWindow(0, 0, cx, cy);
-}
+	//MoveWindow(cr.left, cr.top, cr.right-cr.left, cr.bottom - cr.top);
+
+} 
 
 
 void CDocConverterDlg::OnBnClickedButton1()
 {
 	// TODO: добавьте свой код обработчика уведомлений
-	
-	AfxMessageBox(m_text);
+	GetDlgItemText(IDC_EDIT1, m_text);
+	std::wstring s((LPCTSTR)m_text);
+	CDialogEx::OnOK();
+	//Plan *Node = new Plan;
+	//Node->Read(m_text);
+	//Arr.push_back(*Node);
+
 	
 }
 

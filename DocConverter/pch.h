@@ -10,4 +10,5 @@
 // Добавьте сюда заголовочные файлы для предварительной компиляции
 #include "framework.h"
 #include "Change.h"
+#include <vector>
 #endif //PCH_H
