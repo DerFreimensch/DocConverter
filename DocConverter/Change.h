@@ -3,20 +3,22 @@
 #include <vector>
 class Plan {
 private:
-	std::string Name;
-	std::string This_Week;
-	std::string Next_Week;
+	CString m_name;
+	CString m_thisWeek;
+	CString m_nextWeek;
 public:
 	Plan();
-	void Read(CString buffer);
-	void NameFunc(CString buffer);
-	void This_WeekFunc(CString buffer);
-	void Next_WeekFunc(CString buffer);
-	void SetName(std::string A);
-	void SetThis_Week(std::string A);
-	void SetNext_Week(std::string A);
-	std::string GetName();
-	std::string GetThis_Week();
-	std::string GetNext_Week();
+	void Readinto(const CString &buffer);
+	int NameFunc(const CString &buffer, int i);
+	int This_WeekFunc(const CString &buffer, int i);
+	int Next_WeekFunc(const CString &buffer, int i);
+	void SetName(const CString &A);
+	void SetThis_Week(const CString &A);
+	void SetNext_Week(const CString &A);
+	CString GetName();
+	CString GetThis_Week();
+	CString GetNext_Week();
 };
-std::vector<Plan> Arr;
+
+bool Read(const CString &buffer);
+void Output();

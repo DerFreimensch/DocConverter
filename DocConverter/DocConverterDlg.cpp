@@ -173,13 +173,15 @@ void CDocConverterDlg::OnBnClickedButton1()
 {
 	// TODO: добавьте свой код обработчика уведомлений
 	GetDlgItemText(IDC_EDIT1, m_text);
-	std::wstring s((LPCTSTR)m_text);
-	CDialogEx::OnOK();
-	//Plan *Node = new Plan;
-	//Node->Read(m_text);
-	//Arr.push_back(*Node);
-
-	
+	std::wstring MainString((LPCTSTR)m_text);
+	//CDialogEx::OnOK();
+	if (true == Read(m_text)) {
+		Output();
+		AfxMessageBox(L"Done!"); 
+	}
+	else {
+		AfxMessageBox(L"Wrong!");
+	}
 }
 
 

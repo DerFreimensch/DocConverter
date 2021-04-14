@@ -11,4 +11,6 @@
 #include "framework.h"
 #include "Change.h"
 #include <vector>
+#include <fstream>
+
 #endif //PCH_H

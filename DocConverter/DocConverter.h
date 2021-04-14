@@ -19,6 +19,7 @@ class CDocConverterApp : public CWinApp
 {
 public:
 	CDocConverterApp();
+	std::vector<Plan> Arr;
 
 // Переопределение
 public:
