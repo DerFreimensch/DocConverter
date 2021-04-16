@@ -51,4 +51,16 @@ int CPlan::Next_WeekFunc(const CString &buffer, int i) {
 	std::cout << "It works3" << std::endl;
 	return 0;
 }
+c_m_thisWeek::c_m_thisWeek() {
+	m_tw1 = L"На этой неделе:";
+	m_tw2 = L"Эта неделя:";
+	//m_tw3 = L"";
+}
+c_m_nextWeek::c_m_nextWeek() {
+	m_nw1 = L"Следующая неделя:";
+	m_nw2 = L"На следующей неделе:";
+	m_nw3 = L"След. неделя:";
+	m_nw4 = L"След.неделя:";
+	//m_nw5 = L"";
+}
 

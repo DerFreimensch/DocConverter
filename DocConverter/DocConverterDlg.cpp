@@ -168,8 +168,8 @@ void  CDocConverterDlg::OnSize(UINT nType, int cx, int cy) {
 		m_button_convert.GetWindowRect(m_cbutton);
 		m_textbox.GetWindowRect(m_ctext);
 		//MoveWindow(cr.left, cr.top, cr.right-cr.left, cr.bottom - cr.top);
-		m_button_convert.MoveWindow(5, cy - 5 - m_cbutton.Height(), cx - 10, m_cbutton.Height());
-		m_textbox.MoveWindow(5, cy - 40 - m_cbutton.Height() - m_ctext.Height(), cx - 10, m_ctext.Height());
+		m_button_convert.MoveWindow(10, cy - 10 - m_cbutton.Height(), cx - 30, m_cbutton.Height());
+		m_textbox.MoveWindow(10, 10, cx - 30, cy - 40 - m_cbutton.Height());
 	}
 }
 
@@ -178,6 +178,8 @@ void CDocConverterDlg::OnBnClickedButton1()
 {
 	// TODO: добавьте свой код обработчика уведомлений
 	GetDlgItemText(IDC_EDIT1, m_text);
+	theApp.FillThisWeekArr();
+	theApp.FillNextWeekArr();
 	//CDialogEx::OnOK();
 	if (theApp.Read(m_text)) {
 		theApp.Output();

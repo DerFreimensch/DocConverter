@@ -3,12 +3,19 @@
 #include <list>
 class c_m_thisWeek {
 public:
-	CString m_W1 = L"На этой неделе:";
-	CString m_W2 = L"Эта неделя:";
+	CString m_tw1;
+	CString m_tw2;
+	//CString m_tw3;
+	c_m_thisWeek();
 };
 class c_m_nextWeek {
 public:
-	//CString 
+	CString m_nw1;
+	CString m_nw2;
+	CString m_nw3;
+	CString m_nw4;
+	//CString m_nw5;
+	c_m_nextWeek();
 };
 
 class CPlan {

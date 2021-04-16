@@ -71,6 +71,11 @@ BOOL CDocConverterApp::InitInstance()
 	// например на название организации
 	SetRegistryKey(_T("Локальные приложения, созданные с помощью мастера приложений"));
 
+
+
+
+
+
 	CDocConverterDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
@@ -106,26 +111,36 @@ BOOL CDocConverterApp::InitInstance()
 }
 
 bool CDocConverterApp::Read(const CString &buffer) {
-	
 	bool m_flag = false;
+	int posThis = 0, posNext = 0, pos = 0;
 	for (int i = 0; i < buffer.GetLength(); i++) {
 		if (buffer[i] == '[') {
-			m_flag = true;	
+			m_flag = true;
 		}
 		if (buffer[i] == ']' && m_flag) {
 			CPlan Node;
 			i = Node.NameFunc(buffer, i);
-			Arr.push_back(Node);
+			m_arr.push_back(Node);
 			m_flag = false;
 		}
+		posThis = buffer.Find(':', i + 1);
+		for (const auto &elem: m_arrThisWeek) {
+			posNext = buffer.Mid(i + 1, posThis).Find(elem);
+			if (posNext = -1) {
+				i = buffer.Mid(i + 1, posThis).Find(elem);
+				i = m_arr.back().This_WeekFunc(buffer, i+1);
+			}
+		}
+		
 	}
-	return !Arr.empty();
+	
+	return !m_arr.empty();
 }
 void CDocConverterApp::Output() {
 	//std::ofstream out("C:\\Users\\MKD\\Desktop\\Output.csv");
 	CStdioFile output;
 	output.Open(L"C:\\Users\\MKD\\Desktop\\Output.csv", CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
-	for (const auto &elem: Arr) { //для всех элементов из Arr
+	for (const auto &elem: m_arr) { //для всех элементов из m_arr
 		output.WriteString(elem.GetName());
 		output.WriteString(L";\"");
 		output.WriteString(elem.GetThis_Week());
@@ -135,4 +150,15 @@ void CDocConverterApp::Output() {
 	}
 	output.Close();
 	ShellExecute(0, L"open", L"C:\\Users\\MKD\\Desktop\\Output.csv", 0, 0, SW_SHOW); //открытие .csv через устройство по умолчанию
+}
+
+void CDocConverterApp::FillThisWeekArr() {
+	m_arrThisWeek.push_back(m_listThis.m_tw1);
+	m_arrThisWeek.push_back(m_listThis.m_tw2);
+}
+void CDocConverterApp::FillNextWeekArr() {
+	m_arrNextWeek.push_back(m_listNext.m_nw1);
+	m_arrNextWeek.push_back(m_listNext.m_nw2);
+	m_arrNextWeek.push_back(m_listNext.m_nw3);
+	m_arrNextWeek.push_back(m_listNext.m_nw4);
 }

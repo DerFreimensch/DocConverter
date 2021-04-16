@@ -21,8 +21,14 @@ public:
 	CDocConverterApp();
 	bool Read(const CString &buffer);
 	void Output();
+	void FillThisWeekArr();
+	void FillNextWeekArr();
 private:
-	std::list<CPlan> Arr;
+	std::list<CString> m_arrThisWeek;
+	std::list<CString> m_arrNextWeek;
+	std::list<CPlan> m_arr;
+	c_m_thisWeek m_listThis;
+	c_m_nextWeek m_listNext;
 // Переопределение
 public:
 	virtual BOOL InitInstance();
