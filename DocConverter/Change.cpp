@@ -4,72 +4,51 @@
 #include <iostream>
 #include "DocConverter.h"
 
-void Output() {
-	std::ofstream out("C:\\Users\\MKD\\Desktop\\Output.csv");
-	for (int i = 0; i < theApp.Arr.size(); i++) {
-		out << std::string(CW2A(theApp.Arr[i].GetName().GetString())) << ';' << '"'
-			<< std::string(CW2A(theApp.Arr[i].GetThis_Week())) << '"' << ';' << '"'
-			<< std::string(CW2A(theApp.Arr[i].GetNext_Week())) << '"' << '\n';
-	}
-}
-Plan::Plan() {
+
+CPlan::CPlan() {
 	m_name = L"Empty";
 	m_thisWeek = L"Empty";
 	m_nextWeek = L"Empty";
 }
-void Plan::Readinto(const CString &buffer) {
+void CPlan::Readinto(const CString &buffer) {
 	//NameFunc(buffer, );
 	//This_WeekFunc(buffer);
 	//Next_WeekFunc(buffer);
 }
-void Plan::SetName(const CString &buffer) {
+void CPlan::SetName(const CString &buffer) {
 	m_name.Empty();
 	m_name = buffer;
 }
-void Plan::SetThis_Week(const CString &buffer) {
+void CPlan::SetThis_Week(const CString &buffer) {
 	m_thisWeek.Empty();
 	m_thisWeek = buffer;
 }
-void Plan::SetNext_Week(const CString &buffer) {
+void CPlan::SetNext_Week(const CString &buffer) {
 	m_nextWeek.Empty();
 	m_nextWeek = buffer;
 }
-CString Plan::GetName() {
+CString CPlan::GetName() const {
 	return m_name;
 }
-CString Plan::GetThis_Week() {
+CString CPlan::GetThis_Week() const {
 	return m_thisWeek;
 }
-CString Plan::GetNext_Week() {
+CString CPlan::GetNext_Week() const {
 	return m_nextWeek;
 }
-int Plan::NameFunc(const CString &buffer, int i) {
-
-	const int pos = buffer.Find(':', i+1);
+int CPlan::NameFunc(const CString &buffer, int i) {
+	const int pos = buffer.Find(':', i+1); // поиск места где первый раз встречается :
 	if (pos != -1){
-		SetName(buffer.Mid(i+1, pos - i -1));
+		SetName(buffer.Mid(i+1, pos - i -1)); // запись от текущего положения+1 до найденного -1
 	}
-
-	return i;
+	return pos+1;
 }
-int Plan::This_WeekFunc(const CString &buffer, int i) {
+int CPlan::This_WeekFunc(const CString &buffer, int i) {
 	std::cout << "It works2" << std::endl;
 	return 0;
 }
-int Plan::Next_WeekFunc(const CString &buffer, int i) {
+int CPlan::Next_WeekFunc(const CString &buffer, int i) {
 	std::cout << "It works3" << std::endl;
 	return 0;
 }
 
-bool Read(const CString &buffer) {
-	for (int i = 0; i < buffer.GetLength(); i++) {
-		if (buffer[i] == '[') {
-			 Plan Node;
-			 theApp.Arr.push_back(Node);
-		}
-		if (buffer[i] == ']') {
-			i = theApp.Arr.back().NameFunc(buffer, i);
-		}
-	}
-	return true;
-}

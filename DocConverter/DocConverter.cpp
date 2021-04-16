@@ -25,7 +25,7 @@ CDocConverterApp::CDocConverterApp()
 {
 	// поддержка диспетчера перезагрузки
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
-
+	setlocale(LC_ALL, "Russian");
 	// TODO: добавьте код создания,
 	// Размещает весь важный код инициализации в InitInstance
 }
@@ -105,3 +105,34 @@ BOOL CDocConverterApp::InitInstance()
 	return FALSE;
 }
 
+bool CDocConverterApp::Read(const CString &buffer) {
+	
+	bool m_flag = false;
+	for (int i = 0; i < buffer.GetLength(); i++) {
+		if (buffer[i] == '[') {
+			m_flag = true;	
+		}
+		if (buffer[i] == ']' && m_flag) {
+			CPlan Node;
+			i = Node.NameFunc(buffer, i);
+			Arr.push_back(Node);
+			m_flag = false;
+		}
+	}
+	return !Arr.empty();
+}
+void CDocConverterApp::Output() {
+	//std::ofstream out("C:\\Users\\MKD\\Desktop\\Output.csv");
+	CStdioFile output;
+	output.Open(L"C:\\Users\\MKD\\Desktop\\Output.csv", CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
+	for (const auto &elem: Arr) { //для всех элементов из Arr
+		output.WriteString(elem.GetName());
+		output.WriteString(L";\"");
+		output.WriteString(elem.GetThis_Week());
+		output.WriteString(L"\";\"");
+		output.WriteString(elem.GetNext_Week());
+		output.WriteString(L"\";\n");
+	}
+	output.Close();
+	ShellExecute(0, L"open", L"C:\\Users\\MKD\\Desktop\\Output.csv", 0, 0, SW_SHOW); //открытие .csv через устройство по умолчанию
+}

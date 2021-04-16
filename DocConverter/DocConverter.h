@@ -19,8 +19,10 @@ class CDocConverterApp : public CWinApp
 {
 public:
 	CDocConverterApp();
-	std::vector<Plan> Arr;
-
+	bool Read(const CString &buffer);
+	void Output();
+private:
+	std::list<CPlan> Arr;
 // Переопределение
 public:
 	virtual BOOL InitInstance();

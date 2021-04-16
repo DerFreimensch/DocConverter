@@ -160,23 +160,27 @@ HCURSOR CDocConverterDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-void  CDocConverterDlg::OnSize(UINT nType, int cx, int cy){
+void  CDocConverterDlg::OnSize(UINT nType, int cx, int cy) {
 	CDialog::OnSize(nType, cx, cy);
-	CRect cr;
-	GetWindowRect(cr);
-	//MoveWindow(cr.left, cr.top, cr.right-cr.left, cr.bottom - cr.top);
-
-} 
+	CRect m_cbutton;
+	CRect m_ctext;
+	if (m_button_convert.GetSafeHwnd() != 0 && m_textbox.GetSafeHwnd()!= 0) {
+		m_button_convert.GetWindowRect(m_cbutton);
+		m_textbox.GetWindowRect(m_ctext);
+		//MoveWindow(cr.left, cr.top, cr.right-cr.left, cr.bottom - cr.top);
+		m_button_convert.MoveWindow(5, cy - 5 - m_cbutton.Height(), cx - 10, m_cbutton.Height());
+		m_textbox.MoveWindow(5, cy - 40 - m_cbutton.Height() - m_ctext.Height(), cx - 10, m_ctext.Height());
+	}
+}
 
 
 void CDocConverterDlg::OnBnClickedButton1()
 {
 	// TODO: добавьте свой код обработчика уведомлений
 	GetDlgItemText(IDC_EDIT1, m_text);
-	std::wstring MainString((LPCTSTR)m_text);
 	//CDialogEx::OnOK();
-	if (true == Read(m_text)) {
-		Output();
+	if (theApp.Read(m_text)) {
+		theApp.Output();
 		AfxMessageBox(L"Done!"); 
 	}
 	else {
