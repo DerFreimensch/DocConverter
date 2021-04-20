@@ -111,11 +111,12 @@ BOOL CDocConverterApp::InitInstance()
 }
 
 bool CDocConverterApp::Read(const CString &buffer) {
-	bool m_flag = false;
+	bool m_flag = false, m_planFlag = false;
 	int posThis = 0, posNext = 0, pos = 0;
 	for (int i = 0; i < buffer.GetLength(); i++) {
 		if (buffer[i] == '[') {
 			m_flag = true;
+			m_planFlag = true;
 		}
 		else if (buffer[i] == ']' && m_flag) {
 			CPlan Node;
@@ -123,13 +124,13 @@ bool CDocConverterApp::Read(const CString &buffer) {
 			m_arr.push_back(Node);
 			m_flag = false;
 		}
-		else if (!m_flag) {
+		else if (m_planFlag && !m_flag) {
 			bool m_flagThis = false;
 			bool m_flagNext = false;
 			int m_posThis, m_posNext, m_posWrite;
 			m_posThis = buffer.Find(':', i+1);
 			m_posNext = buffer.Find(':', m_posThis+1);
-			m_posWrite = buffer.Find('[', m_posNext);
+			m_posWrite = buffer.Find('[', m_posNext+1);
 			for (const auto& elem : m_arrThisWeek) {
 				int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
 				if (k != -1) {
@@ -137,7 +138,7 @@ bool CDocConverterApp::Read(const CString &buffer) {
 				}
 			}
 			for (const auto& elem : m_arrNextWeek) {
-				int k = buffer.Mid(i, m_posThis - i).Find(elem);
+				int k = buffer.Mid(i+1, m_posThis - i).Find(elem);
 				if (k != -1) {
 					m_flagNext = true;
 				}
@@ -147,8 +148,8 @@ bool CDocConverterApp::Read(const CString &buffer) {
 				for (const auto& first : m_arrNextWeek) {
 					ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
 					if (ptr != -1) {
-						m_arr.back().This_WeekFunc(buffer, m_posThis, ptr + m_posThis);
-						m_arr.back().Next_WeekFunc(buffer, m_posNext, m_posWrite);
+						m_arr.back().This_WeekFunc(buffer, m_posThis+1, ptr-1);
+						m_arr.back().Next_WeekFunc(buffer, m_posNext+1, m_posWrite - m_posNext - 1);
 					}
 				}	
 			}
@@ -157,12 +158,13 @@ bool CDocConverterApp::Read(const CString &buffer) {
 				for (const auto& first : m_arrThisWeek) {
 					ptr = buffer.Mid(m_posThis, m_posNext+1 - m_posThis).Find(first);
 					if (ptr != -1) {
-						m_arr.back().Next_WeekFunc(buffer, m_posThis, ptr + m_posThis);
-						m_arr.back().This_WeekFunc(buffer, m_posNext, m_posWrite);
+						m_arr.back().Next_WeekFunc(buffer, m_posThis+1, ptr-1);
+						m_arr.back().This_WeekFunc(buffer, m_posNext+1, m_posWrite - m_posNext - 1);
 					}
 				}
 			}
-			i = m_posWrite;
+			i = m_posWrite-1;
+			m_planFlag = false;
 		}
 	}
 	return !m_arr.empty();
