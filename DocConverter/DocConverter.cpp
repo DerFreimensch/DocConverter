@@ -117,23 +117,54 @@ bool CDocConverterApp::Read(const CString &buffer) {
 		if (buffer[i] == '[') {
 			m_flag = true;
 		}
-		if (buffer[i] == ']' && m_flag) {
+		else if (buffer[i] == ']' && m_flag) {
 			CPlan Node;
 			i = Node.NameFunc(buffer, i);
 			m_arr.push_back(Node);
 			m_flag = false;
 		}
-		posThis = buffer.Find(':', i + 1);
-		for (const auto &elem: m_arrThisWeek) {
-			posNext = buffer.Mid(i + 1, posThis).Find(elem);
-			if (posNext = -1) {
-				i = buffer.Mid(i + 1, posThis).Find(elem);
-				i = m_arr.back().This_WeekFunc(buffer, i+1);
+		else if (!m_flag) {
+			bool m_flagThis = false;
+			bool m_flagNext = false;
+			int m_posThis, m_posNext, m_posWrite;
+			m_posThis = buffer.Find(':', i+1);
+			m_posNext = buffer.Find(':', m_posThis+1);
+			m_posWrite = buffer.Find('[', m_posNext);
+			for (const auto& elem : m_arrThisWeek) {
+				int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
+				if (k != -1) {
+					m_flagThis = true;
+				}
 			}
+			for (const auto& elem : m_arrNextWeek) {
+				int k = buffer.Mid(i, m_posThis - i).Find(elem);
+				if (k != -1) {
+					m_flagNext = true;
+				}
+			}
+			if (m_flagThis) {
+				int ptr;
+				for (const auto& first : m_arrNextWeek) {
+					ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
+					if (ptr != -1) {
+						m_arr.back().This_WeekFunc(buffer, m_posThis, ptr + m_posThis);
+						m_arr.back().Next_WeekFunc(buffer, m_posNext, m_posWrite);
+					}
+				}	
+			}
+			else if (m_flagNext) {
+				int ptr;
+				for (const auto& first : m_arrThisWeek) {
+					ptr = buffer.Mid(m_posThis, m_posNext+1 - m_posThis).Find(first);
+					if (ptr != -1) {
+						m_arr.back().Next_WeekFunc(buffer, m_posThis, ptr + m_posThis);
+						m_arr.back().This_WeekFunc(buffer, m_posNext, m_posWrite);
+					}
+				}
+			}
+			i = m_posWrite;
 		}
-		
 	}
-	
 	return !m_arr.empty();
 }
 void CDocConverterApp::Output() {

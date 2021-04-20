@@ -41,15 +41,13 @@ int CPlan::NameFunc(const CString &buffer, int i) {
 	if (pos != -1){
 		SetName(buffer.Mid(i+1, pos - i -1)); // запись от текущего положения+1 до найденного -1
 	}
-	return pos+1;
+	return pos;
 }
-int CPlan::This_WeekFunc(const CString &buffer, int i) {
-	std::cout << "It works2" << std::endl;
-	return 0;
+void CPlan::This_WeekFunc(const CString &buffer, int i, int j) {
+	SetThis_Week(buffer.Mid(i, j));
 }
-int CPlan::Next_WeekFunc(const CString &buffer, int i) {
-	std::cout << "It works3" << std::endl;
-	return 0;
+void CPlan::Next_WeekFunc(const CString &buffer, int i, int j) {
+	SetNext_Week(buffer.Mid(i, j));
 }
 c_m_thisWeek::c_m_thisWeek() {
 	m_tw1 = L"На этой неделе:";
