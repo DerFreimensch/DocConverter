@@ -5,7 +5,7 @@ class c_m_thisWeek {
 public:
 	CString m_tw1;
 	CString m_tw2;
-	//CString m_tw3;
+	CString m_tw3;
 	c_m_thisWeek();
 };
 class c_m_nextWeek {
@@ -15,7 +15,9 @@ public:
 	CString m_nw3;
 	CString m_nw4;
 	CString m_nw5;
-	//CString m_nw6;
+	CString m_nw6;
+	CString m_nw7;
+	CString m_nw8;
 
 	c_m_nextWeek();
 };

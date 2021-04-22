@@ -130,7 +130,7 @@ bool CDocConverterApp::Read(const CString &buffer) {
 			int m_posThis, m_posNext, m_posWrite;
 			m_posThis = buffer.Find(':', i+1);
 			m_posNext = buffer.Find(':', m_posThis+1);
-			m_posWrite = buffer.Find('[', m_posThis + 1);
+			m_posWrite = buffer.Find('[', i + 1);
 			for (const auto& elem : m_arrThisWeek) {
 				int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
 				if (k != -1) {
@@ -169,8 +169,11 @@ bool CDocConverterApp::Read(const CString &buffer) {
 					}
 				}
 				if (ptr == -1) {
-					m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posNext - 3));
+					m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
 				}
+			}
+			else {
+				m_arr.back().This_WeekFunc(buffer.Mid(i + 1, m_posWrite - i - 3));
 			}
 			i = m_posWrite-1;
 			m_planFlag = false;
@@ -186,8 +189,18 @@ void CDocConverterApp::Output() {
 		//output.WriteString(L"\"");
 		output.WriteString(elem.GetName());
 		output.WriteString(L";\"");
+		for (int i = 0; i < elem.GetThis_Week().GetLength(); i++) {
+			if (elem.GetThis_Week().GetAt(i) == '@') {
+				elem.GetThis_Week().SetAt(i, '"');
+			}
+		}
 		output.WriteString(elem.GetThis_Week());
 		output.WriteString(L"\";\"");
+		for (int i = 0; i < elem.GetNext_Week().GetLength(); i++) {
+			if (elem.GetNext_Week().GetAt(i) == '@') {
+				elem.GetNext_Week().SetAt(i, '"');
+			}
+		}
 		output.WriteString(elem.GetNext_Week());
 		output.WriteString(L"\";\n");
 	}
@@ -198,6 +211,7 @@ void CDocConverterApp::Output() {
 void CDocConverterApp::FillThisWeekArr() {
 	m_arrThisWeek.push_back(m_listThis.m_tw1);
 	m_arrThisWeek.push_back(m_listThis.m_tw2);
+	m_arrThisWeek.push_back(m_listThis.m_tw3);
 }
 void CDocConverterApp::FillNextWeekArr() {
 	m_arrNextWeek.push_back(m_listNext.m_nw1);
@@ -205,4 +219,7 @@ void CDocConverterApp::FillNextWeekArr() {
 	m_arrNextWeek.push_back(m_listNext.m_nw3);
 	m_arrNextWeek.push_back(m_listNext.m_nw4);
 	m_arrNextWeek.push_back(m_listNext.m_nw5);
+	m_arrNextWeek.push_back(m_listNext.m_nw6);
+	m_arrNextWeek.push_back(m_listNext.m_nw7);
+	m_arrNextWeek.push_back(m_listNext.m_nw8);
 }

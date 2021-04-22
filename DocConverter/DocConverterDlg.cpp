@@ -183,6 +183,8 @@ void CDocConverterDlg::OnBnClickedButton1()
 		if (m_text.GetAt(i) == '\r') {
 			m_text.SetAt(i, ' ');
 		}
+		if (m_text.GetAt(i) == '"')
+			m_text.SetAt(i, '@');
 	}
 	theApp.FillThisWeekArr();
 	theApp.FillNextWeekArr();

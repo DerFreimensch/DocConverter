@@ -52,7 +52,7 @@ void CPlan::Next_WeekFunc(const CString &buffer) {
 c_m_thisWeek::c_m_thisWeek() {
 	m_tw1 = L"На этой неделе";
 	m_tw2 = L"Эта неделя";
-	//m_tw3 = L"";
+	m_tw3 = L"эта неделя";
 }
 c_m_nextWeek::c_m_nextWeek() {
 	m_nw1 = L"Следующая неделя";
@@ -60,6 +60,8 @@ c_m_nextWeek::c_m_nextWeek() {
 	m_nw3 = L"След. неделя";
 	m_nw4 = L"След.неделя";
 	m_nw5 = L"След.Неделя";
-	//m_nw6 = L"";
+	m_nw6 = L"След неделя";
+	m_nw7 = L"На след. неделе";
+	m_nw8 = L"след. неделя";
 }
 
