@@ -148,19 +148,27 @@ bool CDocConverterApp::Read(const CString &buffer) {
 				for (const auto& first : m_arrNextWeek) {
 					ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
 					if (ptr != -1) {
-						m_arr.back().This_WeekFunc(buffer, m_posThis+1, ptr-1);
-						m_arr.back().Next_WeekFunc(buffer, m_posNext+1, m_posWrite - m_posNext - 1);
+						m_arr.back().This_WeekFunc(buffer.Mid(m_posThis+1, ptr-3));
+						m_arr.back().Next_WeekFunc(buffer.Mid(m_posNext+1, m_posWrite - m_posNext - 3));
+						break;
 					}
 				}	
+				if (ptr == -1) {
+					m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posNext - 3));
+				}
 			}
 			else if (m_flagNext) {
 				int ptr;
 				for (const auto& first : m_arrThisWeek) {
 					ptr = buffer.Mid(m_posThis, m_posNext+1 - m_posThis).Find(first);
 					if (ptr != -1) {
-						m_arr.back().Next_WeekFunc(buffer, m_posThis+1, ptr-1);
-						m_arr.back().This_WeekFunc(buffer, m_posNext+1, m_posWrite - m_posNext - 1);
+						m_arr.back().Next_WeekFunc(buffer.Mid(m_posThis+1, ptr-3));
+						m_arr.back().This_WeekFunc(buffer.Mid(m_posNext+1, m_posWrite - m_posNext -3));
+						break;
 					}
+				}
+				if (ptr == -1) {
+					m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posNext - 3));
 				}
 			}
 			i = m_posWrite-1;
@@ -174,6 +182,7 @@ void CDocConverterApp::Output() {
 	CStdioFile output;
 	output.Open(L"C:\\Users\\MKD\\Desktop\\Output.csv", CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
 	for (const auto &elem: m_arr) { //для всех элементов из m_arr
+		//output.WriteString(L"\"");
 		output.WriteString(elem.GetName());
 		output.WriteString(L";\"");
 		output.WriteString(elem.GetThis_Week());

@@ -27,8 +27,8 @@ public:
 	CPlan();
 	void Readinto(const CString &buffer);
 	int NameFunc(const CString &buffer, int i);
-	void This_WeekFunc(const CString &buffer, int i, int j);
-	void Next_WeekFunc(const CString &buffer, int i, int j);
+	void This_WeekFunc(const CString &buffer);
+	void Next_WeekFunc(const CString &buffer);
 	void SetName(const CString &A);
 	void SetThis_Week(const CString &A);
 	void SetNext_Week(const CString &A);

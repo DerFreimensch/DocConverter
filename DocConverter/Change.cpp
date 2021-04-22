@@ -6,9 +6,9 @@
 
 
 CPlan::CPlan() {
-	m_name = L"Empty";
-	m_thisWeek = L"Empty";
-	m_nextWeek = L"Empty";
+	m_name = L"";
+	m_thisWeek = L"";
+	m_nextWeek = L"";
 }
 void CPlan::Readinto(const CString &buffer) {
 	//NameFunc(buffer, );
@@ -43,22 +43,22 @@ int CPlan::NameFunc(const CString &buffer, int i) {
 	}
 	return pos;
 }
-void CPlan::This_WeekFunc(const CString &buffer, int i, int j) {
-	SetThis_Week(buffer.Mid(i, j));
+void CPlan::This_WeekFunc(const CString &buffer) {
+	SetThis_Week(buffer);
 }
-void CPlan::Next_WeekFunc(const CString &buffer, int i, int j) {
-	SetNext_Week(buffer.Mid(i, j));
+void CPlan::Next_WeekFunc(const CString &buffer) {
+	SetNext_Week(buffer);
 }
 c_m_thisWeek::c_m_thisWeek() {
-	m_tw1 = L"На этой неделе:";
-	m_tw2 = L"Эта неделя:";
+	m_tw1 = L"На этой неделе";
+	m_tw2 = L"Эта неделя";
 	//m_tw3 = L"";
 }
 c_m_nextWeek::c_m_nextWeek() {
-	m_nw1 = L"Следующая неделя:";
-	m_nw2 = L"На следующей неделе:";
-	m_nw3 = L"След. неделя:";
-	m_nw4 = L"След.неделя:";
+	m_nw1 = L"Следующая неделя";
+	m_nw2 = L"На следующей неделе";
+	m_nw3 = L"След. неделя";
+	m_nw4 = L"След.неделя";
 	//m_nw5 = L"";
 }
 
