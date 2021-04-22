@@ -14,7 +14,9 @@ public:
 	CString m_nw2;
 	CString m_nw3;
 	CString m_nw4;
-	//CString m_nw5;
+	CString m_nw5;
+	//CString m_nw6;
+
 	c_m_nextWeek();
 };
 

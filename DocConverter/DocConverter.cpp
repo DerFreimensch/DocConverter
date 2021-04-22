@@ -130,7 +130,7 @@ bool CDocConverterApp::Read(const CString &buffer) {
 			int m_posThis, m_posNext, m_posWrite;
 			m_posThis = buffer.Find(':', i+1);
 			m_posNext = buffer.Find(':', m_posThis+1);
-			m_posWrite = buffer.Find('[', m_posNext+1);
+			m_posWrite = buffer.Find('[', m_posThis + 1);
 			for (const auto& elem : m_arrThisWeek) {
 				int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
 				if (k != -1) {
@@ -154,7 +154,8 @@ bool CDocConverterApp::Read(const CString &buffer) {
 					}
 				}	
 				if (ptr == -1) {
-					m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posNext - 3));
+					m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
+					TRACE(L"this week = %s\n", m_arr.back().GetThis_Week());
 				}
 			}
 			else if (m_flagNext) {
@@ -203,4 +204,5 @@ void CDocConverterApp::FillNextWeekArr() {
 	m_arrNextWeek.push_back(m_listNext.m_nw2);
 	m_arrNextWeek.push_back(m_listNext.m_nw3);
 	m_arrNextWeek.push_back(m_listNext.m_nw4);
+	m_arrNextWeek.push_back(m_listNext.m_nw5);
 }
