@@ -24,7 +24,7 @@ public:
 	void FillThisWeekArr();
 	void FillNextWeekArr();
 	void FillWorkerArr();
-	void CPointChange(CString &buffer);
+	void CPointChange(const CString &buffer);
 private:
 	std::list<CString> m_arrThisWeek;
 	std::list<CString> m_arrNextWeek;

@@ -177,8 +177,9 @@ void  CDocConverterDlg::OnSize(UINT nType, int cx, int cy) {
 void CDocConverterDlg::OnBnClickedButton1()
 {
 	// TODO: добавьте свой код обработчика уведомлений
-	GetDlgItemText(IDC_EDIT1, m_text);
-	m_text.Insert(m_text.GetLength()+1, '[');
+	//GetDlgItemText(IDC_EDIT1, m_text);
+	UpdateData(TRUE);
+	m_text += '[';
 	m_text.Replace('\r', ' ');
 	m_text.Replace('"', '$');
 	theApp.FillThisWeekArr();
@@ -193,6 +194,8 @@ void CDocConverterDlg::OnBnClickedButton1()
 	else {
 		AfxMessageBox(L"Wrong!");
 	}
+
+	UpdateData(FALSE);
 }
 
 

@@ -199,49 +199,51 @@ void CDocConverterApp::Output() {
 }
 
 
-void CDocConverterApp::CPointChange(CString &buffer) { // если где то нет двоеточий, то добавляет их туда
+void CDocConverterApp::CPointChange(const CString &buffer){ // если где то нет двоеточий, то добавляет их туда
+	CString buf;
+	buf = buffer;
 	int i = 0, pos = 0;
-	int count = buffer.GetLength();
+	int count = buf.GetLength();
 	while (pos < count-1) {
-		pos = buffer.Find('[', pos+10);
+		pos = buf.Find('[', pos+10);
 		for (const auto &elem : m_arrWorker) {
 			int j;
-			j = buffer.Find(elem, i);
+			j = buf.Find(elem, i);
 			if (j != -1 && j < pos) {
 				i = j + elem.GetLength();
-				if (buffer.GetAt(i) != '@') {
-					if (buffer.GetAt(i) != ' ') {
-						buffer.Delete(i);
+				if (buf.GetAt(i) != '@') {
+					if (buf.GetAt(i) != ' ') {
+						buf.Delete(i);
 					}
-					buffer.Insert(i, '@');
+					buf.Insert(i, '@');
 				}
 				break;
 			}
 		}
 		for (const auto& elem : m_arrThisWeek) {
 			int j;
-			j = buffer.Find(elem, i);
+			j = buf.Find(elem, i);
 			if (j != -1 && j < pos) {
 				i = j + elem.GetLength();
-				if (buffer.GetAt(i) != '@') {
-					if(buffer.GetAt(i) != ' '){
-						buffer.Delete(i);
+				if (buf.GetAt(i) != '@') {
+					if(buf.GetAt(i) != ' '){
+						buf.Delete(i);
 					}
-					buffer.Insert(i, '@');
+					buf.Insert(i, '@');
 				}
 				break;
 			}
 		}
 		for (const auto& element : m_arrNextWeek) {
 			int j;
-			j = buffer.Find(element, i);
+			j = buf.Find(element, i);
 			if (j != -1 && j < pos) {
 				i = j + element.GetLength();
-				if (buffer.GetAt(i) != '@') {
-					if (buffer.GetAt(i) != ' ') {
-						buffer.Delete(i);
+				if (buf.GetAt(i) != '@') {
+					if (buf.GetAt(i) != ' ') {
+						buf.Delete(i);
 					}
-					buffer.Insert(i, '@');
+					buf.Insert(i, '@');
 				}
 				break;
 			}
