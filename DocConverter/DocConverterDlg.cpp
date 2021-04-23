@@ -179,15 +179,12 @@ void CDocConverterDlg::OnBnClickedButton1()
 	// TODO: добавьте свой код обработчика уведомлений
 	GetDlgItemText(IDC_EDIT1, m_text);
 	m_text.Insert(m_text.GetLength()+1, '[');
-	for (int i = 0; i < m_text.GetLength(); i++) {
-		if (m_text.GetAt(i) == '\r') {
-			m_text.SetAt(i, ' ');
-		}
-		if (m_text.GetAt(i) == '"')
-			m_text.SetAt(i, '@');
-	}
+	m_text.Replace('\r', ' ');
+	m_text.Replace('"', '$');
 	theApp.FillThisWeekArr();
 	theApp.FillNextWeekArr();
+	theApp.FillWorkerArr();
+	theApp.CPointChange(m_text);
 	//CDialogEx::OnOK();
 	if (theApp.Read(m_text)) {
 		theApp.Output();

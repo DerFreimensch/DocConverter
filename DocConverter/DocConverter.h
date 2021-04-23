@@ -23,12 +23,17 @@ public:
 	void Output();
 	void FillThisWeekArr();
 	void FillNextWeekArr();
+	void FillWorkerArr();
+	void CPointChange(CString &buffer);
 private:
 	std::list<CString> m_arrThisWeek;
 	std::list<CString> m_arrNextWeek;
+	std::list<CString> m_arrWorker;
 	std::list<CPlan> m_arr;
 	c_m_thisWeek m_listThis;
 	c_m_nextWeek m_listNext;
+	c_m_Worker m_listWorker;
+	
 // Переопределение
 public:
 	virtual BOOL InitInstance();

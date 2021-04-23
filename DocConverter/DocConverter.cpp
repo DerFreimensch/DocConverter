@@ -128,8 +128,8 @@ bool CDocConverterApp::Read(const CString &buffer) {
 			bool m_flagThis = false;
 			bool m_flagNext = false;
 			int m_posThis, m_posNext, m_posWrite;
-			m_posThis = buffer.Find(':', i+1);
-			m_posNext = buffer.Find(':', m_posThis+1);
+			m_posThis = buffer.Find('@', i+1);
+			m_posNext = buffer.Find('@', m_posThis+1);
 			m_posWrite = buffer.Find('[', i + 1);
 			for (const auto& elem : m_arrThisWeek) {
 				int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
@@ -155,7 +155,7 @@ bool CDocConverterApp::Read(const CString &buffer) {
 				}	
 				if (ptr == -1) {
 					m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
-					TRACE(L"this week = %s\n", m_arr.back().GetThis_Week());
+					//TRACE(L"this week = %s\n", m_arr.back().GetThis_Week());
 				}
 			}
 			else if (m_flagNext) {
@@ -185,27 +185,68 @@ void CDocConverterApp::Output() {
 	//std::ofstream out("C:\\Users\\MKD\\Desktop\\Output.csv");
 	CStdioFile output;
 	output.Open(L"C:\\Users\\MKD\\Desktop\\Output.csv", CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
-	for (const auto &elem: m_arr) { //для всех элементов из m_arr
+	for (auto &elem: m_arr) { //для всех элементов из m_arr
 		//output.WriteString(L"\"");
 		output.WriteString(elem.GetName());
 		output.WriteString(L";\"");
-		for (int i = 0; i < elem.GetThis_Week().GetLength(); i++) {
-			if (elem.GetThis_Week().GetAt(i) == '@') {
-				elem.GetThis_Week().SetAt(i, '"');
-			}
-		}
 		output.WriteString(elem.GetThis_Week());
 		output.WriteString(L"\";\"");
-		for (int i = 0; i < elem.GetNext_Week().GetLength(); i++) {
-			if (elem.GetNext_Week().GetAt(i) == '@') {
-				elem.GetNext_Week().SetAt(i, '"');
-			}
-		}
 		output.WriteString(elem.GetNext_Week());
 		output.WriteString(L"\";\n");
 	}
 	output.Close();
 	ShellExecute(0, L"open", L"C:\\Users\\MKD\\Desktop\\Output.csv", 0, 0, SW_SHOW); //открытие .csv через устройство по умолчанию
+}
+
+
+void CDocConverterApp::CPointChange(CString &buffer) { // если где то нет двоеточий, то добавляет их туда
+	int i = 0, pos = 0;
+	int count = buffer.GetLength();
+	while (pos < count-1) {
+		pos = buffer.Find('[', pos+10);
+		for (const auto &elem : m_arrWorker) {
+			int j;
+			j = buffer.Find(elem, i);
+			if (j != -1 && j < pos) {
+				i = j + elem.GetLength();
+				if (buffer.GetAt(i) != '@') {
+					if (buffer.GetAt(i) != ' ') {
+						buffer.Delete(i);
+					}
+					buffer.Insert(i, '@');
+				}
+				break;
+			}
+		}
+		for (const auto& elem : m_arrThisWeek) {
+			int j;
+			j = buffer.Find(elem, i);
+			if (j != -1 && j < pos) {
+				i = j + elem.GetLength();
+				if (buffer.GetAt(i) != '@') {
+					if(buffer.GetAt(i) != ' '){
+						buffer.Delete(i);
+					}
+					buffer.Insert(i, '@');
+				}
+				break;
+			}
+		}
+		for (const auto& element : m_arrNextWeek) {
+			int j;
+			j = buffer.Find(element, i);
+			if (j != -1 && j < pos) {
+				i = j + element.GetLength();
+				if (buffer.GetAt(i) != '@') {
+					if (buffer.GetAt(i) != ' ') {
+						buffer.Delete(i);
+					}
+					buffer.Insert(i, '@');
+				}
+				break;
+			}
+		}
+	}
 }
 
 void CDocConverterApp::FillThisWeekArr() {
@@ -222,4 +263,20 @@ void CDocConverterApp::FillNextWeekArr() {
 	m_arrNextWeek.push_back(m_listNext.m_nw6);
 	m_arrNextWeek.push_back(m_listNext.m_nw7);
 	m_arrNextWeek.push_back(m_listNext.m_nw8);
+}
+void CDocConverterApp::FillWorkerArr() {
+	m_arrWorker.push_back(m_listWorker.m_w1);
+	m_arrWorker.push_back(m_listWorker.m_w2);
+	m_arrWorker.push_back(m_listWorker.m_w3);
+	m_arrWorker.push_back(m_listWorker.m_w4);
+	m_arrWorker.push_back(m_listWorker.m_w5);
+	m_arrWorker.push_back(m_listWorker.m_w6);
+	m_arrWorker.push_back(m_listWorker.m_w7);
+	m_arrWorker.push_back(m_listWorker.m_w8);
+	m_arrWorker.push_back(m_listWorker.m_w9);
+	m_arrWorker.push_back(m_listWorker.m_w10);
+	m_arrWorker.push_back(m_listWorker.m_w11);
+	m_arrWorker.push_back(m_listWorker.m_w12);
+	m_arrWorker.push_back(m_listWorker.m_w13);
+	m_arrWorker.push_back(m_listWorker.m_w14);
 }

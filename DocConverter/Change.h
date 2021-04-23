@@ -21,6 +21,24 @@ public:
 
 	c_m_nextWeek();
 };
+class c_m_Worker {
+public:
+	CString m_w1;
+	CString m_w2;
+	CString m_w3;
+	CString m_w4;
+	CString m_w5;
+	CString m_w6;
+	CString m_w7;
+	CString m_w8;
+	CString m_w9;
+	CString m_w10;
+	CString m_w11;
+	CString m_w12;
+	CString m_w13;
+	CString m_w14;
+	c_m_Worker();
+};
 
 class CPlan {
 private:
