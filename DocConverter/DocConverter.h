@@ -19,12 +19,20 @@ class CDocConverterApp : public CWinApp
 {
 public:
 	CDocConverterApp();
-	bool Read(const CString &buffer);
-	void Output();
-	void FillThisWeekArr();
-	void FillNextWeekArr();
-	void FillWorkerArr();
-	void CPointChange(const CString &buffer);
+	bool CRead(const CString &buffer);
+	void CPosSetting(const CString& buffer, int& m_posThis, int& m_posNext, int& m_posWrite, int& i);
+	bool CFindWeek(const CString& buffer, const int& i, const int& m_posThis, const CString& elem);
+	void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posNext, const int& m_posWrite, 
+		const bool& m_flagThis, const bool& m_flagNext, const int& i);
+	void COutput();
+	void CFillThisWeekArr();
+	void CFillNextWeekArr();
+	void CFillWorkerArr();
+	CString CPointChange(const CString &buffer); // выставляет правильные точки анализа текста
+	void CViewWholeBuffer(int& pos, int& i, int& count, CString &buf); // просматриваем весь текст, внутри исполняется расстановка точек
+	void CPointName(const CString& elem, int& pos, int&i, CString& buf);
+	void CPointThis(const CString& elem, int& pos, int&i, CString& buf);
+	void CPointNext(const CString& elem, int& pos, int&i, CString& buf);
 private:
 	std::list<CString> m_arrThisWeek;
 	std::list<CString> m_arrNextWeek;

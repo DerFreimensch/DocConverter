@@ -110,81 +110,97 @@ BOOL CDocConverterApp::InitInstance()
 	return FALSE;
 }
 
-bool CDocConverterApp::Read(const CString &buffer) {
+bool CDocConverterApp::CRead(const CString &buffer) {
 	bool m_flag = false, m_planFlag = false;
 	int posThis = 0, posNext = 0, pos = 0;
-	for (int i = 0; i < buffer.GetLength(); i++) {
+	for (int i = 0; i < buffer.GetLength(); i++) { // новая запись
 		if (buffer[i] == '[') {
 			m_flag = true;
 			m_planFlag = true;
 		}
-		else if (buffer[i] == ']' && m_flag) {
+		else if (buffer[i] == ']' && m_flag) { //запись имени
 			CPlan Node;
 			i = Node.NameFunc(buffer, i);
 			m_arr.push_back(Node);
 			m_flag = false;
 		}
-		else if (m_planFlag && !m_flag) {
+		else if (m_planFlag && !m_flag) { // запись этой и след недели
 			bool m_flagThis = false;
 			bool m_flagNext = false;
 			int m_posThis, m_posNext, m_posWrite;
-			m_posThis = buffer.Find('@', i+1);
-			m_posNext = buffer.Find('@', m_posThis+1);
-			m_posWrite = buffer.Find('[', i + 1);
+			CPosSetting(buffer, m_posThis, m_posNext, m_posWrite, i);
 			for (const auto& elem : m_arrThisWeek) {
-				int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
-				if (k != -1) {
-					m_flagThis = true;
-				}
+				m_flagThis = CFindWeek(buffer, i, m_posThis, elem);
 			}
 			for (const auto& elem : m_arrNextWeek) {
-				int k = buffer.Mid(i+1, m_posThis - i).Find(elem);
-				if (k != -1) {
-					m_flagNext = true;
-				}
+				m_flagNext = CFindWeek(buffer, i, m_posThis, elem);
 			}
-			if (m_flagThis) {
-				int ptr;
-				for (const auto& first : m_arrNextWeek) {
-					ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
-					if (ptr != -1) {
-						m_arr.back().This_WeekFunc(buffer.Mid(m_posThis+1, ptr-3));
-						m_arr.back().Next_WeekFunc(buffer.Mid(m_posNext+1, m_posWrite - m_posNext - 3));
-						break;
-					}
-				}	
-				if (ptr == -1) {
-					m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
-					//TRACE(L"this week = %s\n", m_arr.back().GetThis_Week());
-				}
-			}
-			else if (m_flagNext) {
-				int ptr;
-				for (const auto& first : m_arrThisWeek) {
-					ptr = buffer.Mid(m_posThis, m_posNext+1 - m_posThis).Find(first);
-					if (ptr != -1) {
-						m_arr.back().Next_WeekFunc(buffer.Mid(m_posThis+1, ptr-3));
-						m_arr.back().This_WeekFunc(buffer.Mid(m_posNext+1, m_posWrite - m_posNext -3));
-						break;
-					}
-				}
-				if (ptr == -1) {
-					m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
-				}
-			}
-			else {
-				m_arr.back().This_WeekFunc(buffer.Mid(i + 1, m_posWrite - i - 3));
-			}
+			CWriteInList(buffer, m_posThis, m_posNext, m_posWrite, m_flagThis, m_flagNext, i);
 			i = m_posWrite-1;
 			m_planFlag = false;
 		}
 	}
 	return !m_arr.empty();
 }
-void CDocConverterApp::Output() {
-	//std::ofstream out("C:\\Users\\MKD\\Desktop\\Output.csv");
+
+void CDocConverterApp::CPosSetting(const CString& buffer, int& m_posThis, int& m_posNext, int& m_posWrite, int& i) {
+	m_posThis = buffer.Find('@', i + 1);
+	m_posNext = buffer.Find('@', m_posThis + 1);
+	m_posWrite = buffer.Find('[', i + 1);
+}
+bool CDocConverterApp::CFindWeek(const CString& buffer, const int& i, const int& m_posThis, const CString& elem) {
+	int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
+	if (k != -1) {
+		return true;
+	}
+}
+
+void CDocConverterApp::CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posNext, const int& m_posWrite, 
+	const bool& m_flagThis, const bool& m_flagNext, const int& i) {
+	if (m_flagThis) {
+		int ptr;
+		for (const auto& first : m_arrNextWeek) {
+			ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
+			if (ptr != -1) {
+				m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, ptr - 3));
+				m_arr.back().Next_WeekFunc(buffer.Mid(m_posNext + 1, m_posWrite - m_posNext - 3));
+				break;
+			}
+		}
+		if (ptr == -1) {
+			m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
+
+		}
+	}
+	else if (m_flagNext) {
+		int ptr;
+		for (const auto& first : m_arrThisWeek) {
+			ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
+			if (ptr != -1) {
+				m_arr.back().Next_WeekFunc(buffer.Mid(m_posThis + 1, ptr - 3));
+				m_arr.back().This_WeekFunc(buffer.Mid(m_posNext + 1, m_posWrite - m_posNext - 3));
+				break;
+			}
+		}
+		if (ptr == -1) {
+			m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
+		}
+	}
+	else {
+		m_arr.back().This_WeekFunc(buffer.Mid(i + 1, m_posWrite - i - 3));
+	}
+}
+
+
+
+void CDocConverterApp::COutput() {
 	CStdioFile output;
-	output.Open(L"C:\\Users\\MKD\\Desktop\\Output.csv", CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
+	CString sFile, sPath;
+	GetModuleFileName(NULL, sFile.GetBufferSetLength(MAX_PATH), MAX_PATH);// поиск пути к файлу
+	int pos = sFile.ReverseFind('\\');
+	sPath = sFile.Left(pos + 1);
+	sPath = sPath + _T("Output.csv");
+	output.Open(sPath, CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
 	for (auto &elem: m_arr) { //для всех элементов из m_arr
 		//output.WriteString(L"\"");
 		output.WriteString(elem.GetName());
@@ -195,68 +211,85 @@ void CDocConverterApp::Output() {
 		output.WriteString(L"\";\n");
 	}
 	output.Close();
-	ShellExecute(0, L"open", L"C:\\Users\\MKD\\Desktop\\Output.csv", 0, 0, SW_SHOW); //открытие .csv через устройство по умолчанию
+	ShellExecute(0, L"open", sPath, 0, L"", SW_SHOW); //открытие .csv через устройство по умолчанию
 }
 
 
-void CDocConverterApp::CPointChange(const CString &buffer){ // если где то нет двоеточий, то добавляет их туда
+
+
+CString CDocConverterApp::CPointChange(const CString &buffer){ 
 	CString buf;
 	buf = buffer;
 	int i = 0, pos = 0;
 	int count = buf.GetLength();
-	while (pos < count-1) {
-		pos = buf.Find('[', pos+10);
+	pos = buf.Find('[', pos);
+	CViewWholeBuffer(pos, i, count, buf);
+	return buf;
+}
+void CDocConverterApp::CViewWholeBuffer(int& pos, int& i, int& count, CString &buf) {
+	while (pos < count - 1) {
+		pos = buf.Find('[', pos + 1);
 		for (const auto &elem : m_arrWorker) {
-			int j;
-			j = buf.Find(elem, i);
-			if (j != -1 && j < pos) {
-				i = j + elem.GetLength();
-				if (buf.GetAt(i) != '@') {
-					if (buf.GetAt(i) != ' ') {
-						buf.Delete(i);
-					}
-					buf.Insert(i, '@');
-				}
-				break;
-			}
+			CPointName(elem, pos, i, buf);
 		}
 		for (const auto& elem : m_arrThisWeek) {
-			int j;
-			j = buf.Find(elem, i);
-			if (j != -1 && j < pos) {
-				i = j + elem.GetLength();
-				if (buf.GetAt(i) != '@') {
-					if(buf.GetAt(i) != ' '){
-						buf.Delete(i);
-					}
-					buf.Insert(i, '@');
-				}
-				break;
-			}
+			CPointThis(elem, pos, i, buf);
 		}
 		for (const auto& element : m_arrNextWeek) {
-			int j;
-			j = buf.Find(element, i);
-			if (j != -1 && j < pos) {
-				i = j + element.GetLength();
-				if (buf.GetAt(i) != '@') {
-					if (buf.GetAt(i) != ' ') {
-						buf.Delete(i);
-					}
-					buf.Insert(i, '@');
-				}
-				break;
-			}
+			CPointNext(element, pos, i, buf);
 		}
 	}
+	
 }
 
-void CDocConverterApp::FillThisWeekArr() {
+void CDocConverterApp::CPointName(const CString& elem, int& pos, int&i, CString& buf) {
+	int j;
+	j = buf.Find(elem, i);
+	if (j != -1 && j < pos) {
+		i = j + elem.GetLength();
+		if (buf.GetAt(i) != '@') {
+			if (buf.GetAt(i) != ' ') {
+				buf.Delete(i);
+			}
+			buf.Insert(i, '@');
+		}
+		return;
+	}
+}
+void CDocConverterApp::CPointThis(const CString& elem, int& pos, int&i, CString& buf) {
+	int j;
+	j = buf.Find(elem, i);
+	if (j != -1 && j < pos) {
+		i = j + elem.GetLength();
+		if (buf.GetAt(i) != '@') {
+			if (buf.GetAt(i) != ' ') {
+				buf.Delete(i);
+			}
+			buf.Insert(i, '@');
+		}
+		return;
+	}
+}
+void CDocConverterApp::CPointNext(const CString& elem, int& pos, int&i, CString& buf) {
+	int j;
+	j = buf.Find(elem, i);
+	if (j != -1 && j < pos) {
+		i = j + elem.GetLength();
+		if (buf.GetAt(i) != '@') {
+			if (buf.GetAt(i) != ' ') {
+				buf.Delete(i);
+			}
+			buf.Insert(i, '@');
+		}
+		return;
+	}
+}
+void CDocConverterApp::CFillThisWeekArr() {
 	m_arrThisWeek.push_back(m_listThis.m_tw1);
 	m_arrThisWeek.push_back(m_listThis.m_tw2);
 	m_arrThisWeek.push_back(m_listThis.m_tw3);
 }
-void CDocConverterApp::FillNextWeekArr() {
+void CDocConverterApp::CFillNextWeekArr() {
 	m_arrNextWeek.push_back(m_listNext.m_nw1);
 	m_arrNextWeek.push_back(m_listNext.m_nw2);
 	m_arrNextWeek.push_back(m_listNext.m_nw3);
@@ -266,7 +299,7 @@ void CDocConverterApp::FillNextWeekArr() {
 	m_arrNextWeek.push_back(m_listNext.m_nw7);
 	m_arrNextWeek.push_back(m_listNext.m_nw8);
 }
-void CDocConverterApp::FillWorkerArr() {
+void CDocConverterApp::CFillWorkerArr() {
 	m_arrWorker.push_back(m_listWorker.m_w1);
 	m_arrWorker.push_back(m_listWorker.m_w2);
 	m_arrWorker.push_back(m_listWorker.m_w3);

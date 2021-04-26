@@ -182,13 +182,12 @@ void CDocConverterDlg::OnBnClickedButton1()
 	m_text += '[';
 	m_text.Replace('\r', ' ');
 	m_text.Replace('"', '$');
-	theApp.FillThisWeekArr();
-	theApp.FillNextWeekArr();
-	theApp.FillWorkerArr();
-	theApp.CPointChange(m_text);
+	theApp.CFillThisWeekArr();
+	theApp.CFillNextWeekArr();
+	theApp.CFillWorkerArr();
 	//CDialogEx::OnOK();
-	if (theApp.Read(m_text)) {
-		theApp.Output();
+	if (theApp.CRead(theApp.CPointChange(m_text))) {
+		theApp.COutput();
 		AfxMessageBox(L"Done!"); 
 	}
 	else {
