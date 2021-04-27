@@ -18,7 +18,6 @@ public:
 	CString m_nw6;
 	CString m_nw7;
 	CString m_nw8;
-
 	c_m_nextWeek();
 };
 class c_m_Worker {
@@ -39,7 +38,24 @@ public:
 	CString m_w14;
 	c_m_Worker();
 };
-
+class c_m_WorkerPres {
+public:
+	CString m_wp1;
+	CString m_wp2;
+	CString m_wp3;
+	CString m_wp4;
+	CString m_wp5;
+	CString m_wp6;
+	CString m_wp7;
+	CString m_wp8;
+	CString m_wp9;
+	CString m_wp10;
+	CString m_wp11;
+	CString m_wp12;
+	CString m_wp13;
+	CString m_wp14;
+	c_m_WorkerPres();
+};
 class CPlan {
 private:
 	CString m_name;

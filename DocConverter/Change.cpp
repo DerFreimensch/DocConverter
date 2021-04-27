@@ -38,8 +38,20 @@ CString CPlan::GetNext_Week() const {
 }
 int CPlan::NameFunc(const CString &buffer, int i) {
 	const int pos = buffer.Find('@', i+1); // поиск места где первый раз встречается :
-	if (pos != -1){
-		SetName(buffer.Mid(i+1, pos - i -1)); // запись от текущего положения+1 до найденного -1
+	int counter = 0;
+	for (const auto& elem : theApp.m_arrWorker){
+		int k = buffer.Mid(i + 1, pos - 1 - i).Find(elem);
+			if (k != -1) {
+				break;
+			}
+		counter++;
+	}
+	for (const auto& elem : theApp.m_arrWorkerPres) {
+		if (counter == 0) {
+			SetName(elem);
+			break;
+		}
+		counter--;
 	}
 	return pos;
 }
@@ -79,7 +91,21 @@ c_m_Worker::c_m_Worker() {
 	m_w12= L"Степан КИТ Загосткин";
 	m_w13 = L"Антон КИТ Падалко";
 	m_w14 = L"Сергей КИТ Поздникин";
-
-
+}
+c_m_WorkerPres::c_m_WorkerPres() {
+	m_wp1 = L"Норина Анастасия";
+	m_wp2 = L"Ефимов Игорь";
+	m_wp3 = L"Рубинштейн Борис";
+	m_wp4 = L"Арнольд Роман";
+	m_wp5 = L"Чубарова Наталья";
+	m_wp6 = L"Романов Алексей";
+	m_wp7 = L"Городжий Дмитрий";
+	m_wp8 = L"Бородуля Вадим";
+	m_wp9 = L"Глазырин Юрий";
+	m_wp10 = L"Григорьев Сергей";
+	m_wp11 = L"Пузанов Алексей";
+	m_wp12 = L"Загосткин Степан";
+	m_wp13 = L"Падалко Антон";
+	m_wp14 = L"Поздникин Сергей";
 }
 

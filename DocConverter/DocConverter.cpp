@@ -210,21 +210,30 @@ void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posN
 
 
 void CDocConverterApp::COutput() {
+	std::list<CString> m_temp = theApp.CSort();
 	CStdioFile output;
-	CString sFile, sPath;
+	CString sFile, sPath, sNumber;
+	int j = 0;
 	GetModuleFileName(NULL, sFile.GetBufferSetLength(MAX_PATH), MAX_PATH);// поиск пути к файлу
 	int pos = sFile.ReverseFind('\\');
 	sPath = sFile.Left(pos + 1);
 	sPath = sPath + _T("Output.csv");
 	output.Open(sPath, CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
-	for (auto &elem: m_arr) { //для всех элементов из m_arr
-		//output.WriteString(L"\"");
-		output.WriteString(elem.GetName());
-		output.WriteString(L";\"");
-		output.WriteString(elem.GetThis_Week());
-		output.WriteString(L"\";\"");
-		output.WriteString(elem.GetNext_Week());
-		output.WriteString(L"\";\n");
+	for (const auto& element : m_temp) {
+		for (const auto &elem : m_arr) { //для всех элементов из m_arr
+			if (element == elem.GetName()) {
+				j++;
+				sNumber.Format(L"%d", j);
+				output.WriteString(sNumber);
+				output.WriteString(L";");
+				output.WriteString(elem.GetName());
+				output.WriteString(L";\"");
+				output.WriteString(elem.GetThis_Week());
+				output.WriteString(L"\";\"");
+				output.WriteString(elem.GetNext_Week());
+				output.WriteString(L"\";\n");
+			}
+		}
 	}
 	output.Close();
 	ShellExecute(0, L"open", sPath, 0, L"", SW_SHOW); //открытие .csv через устройство по умолчанию
@@ -345,4 +354,43 @@ void CDocConverterApp::CFillWorkerArr() {
 	m_arrWorker.push_back(m_listWorker.m_w12);
 	m_arrWorker.push_back(m_listWorker.m_w13);
 	m_arrWorker.push_back(m_listWorker.m_w14);
+}
+void CDocConverterApp::CFillWorkerPresArr() {
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp1);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp2);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp3);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp4);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp5);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp6);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp7);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp8);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp9);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp10);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp11);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp12);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp13);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp14);
+}
+
+
+std::list<CString> CDocConverterApp::CSort() {
+	std::list<CString> m_temp;
+	for (int k = 0; k < m_arrWorkerPres.size(); k++) {
+		m_temp.push_back(L"ЯЯ");
+		for (auto& elem : m_arrWorkerPres) {
+			if (m_temp.back() > elem) {
+				m_temp.pop_back();
+				m_temp.push_back(elem);
+			}
+		}
+		std::list<CString>::iterator it;
+		it = m_arrWorkerPres.begin();
+		while(it != m_arrWorkerPres.end()) {
+			if (m_temp.back() == *it) {
+				*it = L"ЯЯЯ";
+			}
+			it++;
+		}
+	}
+	return m_temp;
 }

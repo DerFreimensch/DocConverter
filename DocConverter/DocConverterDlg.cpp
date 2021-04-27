@@ -185,13 +185,14 @@ void CDocConverterDlg::OnBnClickedButton1()
 	theApp.CFillThisWeekArr();
 	theApp.CFillNextWeekArr();
 	theApp.CFillWorkerArr();
+	theApp.CFillWorkerPresArr();
 	//CDialogEx::OnOK();
 	if (theApp.CRead(theApp.CPointChange(m_text))) {
 		theApp.COutput();
-		AfxMessageBox(L"Done!"); 
+		AfxMessageBox(L"Готово!"); 
 	}
 	else {
-		AfxMessageBox(L"Wrong!");
+		AfxMessageBox(L"Что то не так!");
 	}
 
 	UpdateData(FALSE);
