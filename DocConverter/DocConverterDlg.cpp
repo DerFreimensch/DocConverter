@@ -181,7 +181,7 @@ void CDocConverterDlg::OnBnClickedButton1()
 	UpdateData(TRUE);
 	m_text += '[';
 	m_text.Replace('\r', ' ');
-	m_text.Replace('"', '$');
+	m_text.Replace('"', '\'');
 	theApp.CFillThisWeekArr();
 	theApp.CFillNextWeekArr();
 	theApp.CFillWorkerArr();

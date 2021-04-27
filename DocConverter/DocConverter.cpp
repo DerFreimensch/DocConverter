@@ -11,7 +11,15 @@
 #define new DEBUG_NEW
 #endif
 
-
+void CViewWholeBuffer(int& pos, int& i, int& count, CString &buf);
+void CPointNameK(const CString& elem, int& pos, int&i, CString& buf);
+void CPointThisK(const CString& elem, int& pos, int&i, CString& buf);
+void CPointNextK(const CString& elem, int& pos, int&i, CString& buf);
+void CPosSetting(const CString& buffer, int& m_posThis, int& m_posNext, int& m_posWrite, int& i);
+bool CFindThisWeek(const CString& buffer, const int& i, const int& m_posThis);
+bool CFindNextWeek(const CString& buffer, const int& i, const int& m_posThis);
+void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posNext, const int& m_posWrite,
+	const bool& m_flagThis, const bool& m_flagNext, const int& i);
 // CDocConverterApp
 
 BEGIN_MESSAGE_MAP(CDocConverterApp, CWinApp)
@@ -129,12 +137,8 @@ bool CDocConverterApp::CRead(const CString &buffer) {
 			bool m_flagNext = false;
 			int m_posThis, m_posNext, m_posWrite;
 			CPosSetting(buffer, m_posThis, m_posNext, m_posWrite, i);
-			for (const auto& elem : m_arrThisWeek) {
-				m_flagThis = CFindWeek(buffer, i, m_posThis, elem);
-			}
-			for (const auto& elem : m_arrNextWeek) {
-				m_flagNext = CFindWeek(buffer, i, m_posThis, elem);
-			}
+			m_flagThis = CFindThisWeek(buffer, i, m_posThis);
+			m_flagNext = CFindNextWeek(buffer, i, m_posThis);
 			CWriteInList(buffer, m_posThis, m_posNext, m_posWrite, m_flagThis, m_flagNext, i);
 			i = m_posWrite-1;
 			m_planFlag = false;
@@ -143,51 +147,63 @@ bool CDocConverterApp::CRead(const CString &buffer) {
 	return !m_arr.empty();
 }
 
-void CDocConverterApp::CPosSetting(const CString& buffer, int& m_posThis, int& m_posNext, int& m_posWrite, int& i) {
+void CPosSetting(const CString& buffer, int& m_posThis, int& m_posNext, int& m_posWrite, int& i) {
 	m_posThis = buffer.Find('@', i + 1);
 	m_posNext = buffer.Find('@', m_posThis + 1);
 	m_posWrite = buffer.Find('[', i + 1);
 }
-bool CDocConverterApp::CFindWeek(const CString& buffer, const int& i, const int& m_posThis, const CString& elem) {
-	int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
-	if (k != -1) {
-		return true;
+bool CFindThisWeek(const CString& buffer, const int& i, const int& m_posThis) {
+	for (const auto& elem : theApp.m_arrThisWeek) {
+		int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
+		if (k != -1) {
+			return true;
+		}
 	}
+	return false;
+}
+bool CFindNextWeek(const CString& buffer, const int& i, const int& m_posThis) {
+	for (const auto& elem : theApp.m_arrNextWeek) {
+		int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
+		if (k != -1) {
+			return true;
+		}
+	}
+	return false;
 }
 
-void CDocConverterApp::CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posNext, const int& m_posWrite, 
+void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posNext, const int& m_posWrite, 
 	const bool& m_flagThis, const bool& m_flagNext, const int& i) {
 	if (m_flagThis) {
 		int ptr;
-		for (const auto& first : m_arrNextWeek) {
+		for (const auto& first : theApp.m_arrNextWeek) {
 			ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
 			if (ptr != -1) {
-				m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, ptr - 3));
-				m_arr.back().Next_WeekFunc(buffer.Mid(m_posNext + 1, m_posWrite - m_posNext - 3));
+				theApp.m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, ptr - 3));
+				theApp.m_arr.back().Next_WeekFunc(buffer.Mid(m_posNext + 1, m_posWrite - m_posNext - 3));
 				break;
 			}
 		}
 		if (ptr == -1) {
-			m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
+			theApp.m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
 
 		}
 	}
 	else if (m_flagNext) {
 		int ptr;
-		for (const auto& first : m_arrThisWeek) {
+		for (const auto& first : theApp.m_arrThisWeek) {
 			ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
 			if (ptr != -1) {
-				m_arr.back().Next_WeekFunc(buffer.Mid(m_posThis + 1, ptr - 3));
-				m_arr.back().This_WeekFunc(buffer.Mid(m_posNext + 1, m_posWrite - m_posNext - 3));
+				theApp.m_arr.back().Next_WeekFunc(buffer.Mid(m_posThis + 1, ptr - 3));
+				theApp.m_arr.back().This_WeekFunc(buffer.Mid(m_posNext + 1, m_posWrite - m_posNext - 3));
 				break;
 			}
 		}
 		if (ptr == -1) {
-			m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
+			theApp.m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
 		}
 	}
 	else {
-		m_arr.back().This_WeekFunc(buffer.Mid(i + 1, m_posWrite - i - 3));
+		theApp.m_arr.back().This_WeekFunc(buffer.Mid(i + 1, m_posWrite - i - 3));
 	}
 }
 
@@ -226,41 +242,48 @@ CString CDocConverterApp::CPointChange(const CString &buffer){
 	CViewWholeBuffer(pos, i, count, buf);
 	return buf;
 }
-void CDocConverterApp::CViewWholeBuffer(int& pos, int& i, int& count, CString &buf) {
+void CViewWholeBuffer(int& pos, int& i, int& count, CString &buf) {
 	while (pos < count - 1) {
 		pos = buf.Find('[', pos + 1);
-		for (const auto &elem : m_arrWorker) {
-			CPointName(elem, pos, i, buf);
+		for (const auto &elem : theApp.m_arrWorker) {
+			CPointNameK(elem, pos, i, buf);
 		}
-		for (const auto& elem : m_arrThisWeek) {
-			CPointThis(elem, pos, i, buf);
+		for (const auto& elem : theApp.m_arrThisWeek) {
+			CPointThisK(elem, pos, i, buf);
 		}
-		for (const auto& element : m_arrNextWeek) {
-			CPointNext(element, pos, i, buf);
+		for (const auto& element : theApp.m_arrNextWeek) {
+			CPointNextK(element, pos, i, buf);
 		}
 	}
 	
 }
 
-void CDocConverterApp::CPointName(const CString& elem, int& pos, int&i, CString& buf) {
-	int j;
-	j = buf.Find(elem, i);
-	if (j != -1 && j < pos) {
-		i = j + elem.GetLength();
-		if (buf.GetAt(i) != '@') {
-			if (buf.GetAt(i) != ' ') {
-				buf.Delete(i);
+void CPointNameK(const CString& elem, int& pos, int&i, CString& buf) {
+		int j;
+		j = buf.Find(elem, i);
+		if (j != -1 && j < pos) {
+			i = j + elem.GetLength();
+			if (buf.GetAt(i) != '@') {
+				if (buf.GetAt(i) != ' ') {
+					buf.Delete(i);
+				}
+				buf.Insert(i, '@');
 			}
-			buf.Insert(i, '@');
-		}
-		return;
+			return;
 	}
+	return;
 }
-void CDocConverterApp::CPointThis(const CString& elem, int& pos, int&i, CString& buf) {
+void CPointThisK(const CString& elem, int& pos, int&i, CString& buf) {
 	int j;
 	j = buf.Find(elem, i);
 	if (j != -1 && j < pos) {
 		i = j + elem.GetLength();
+		int s = buf.Mid(i+1).FindOneOf(L"АБВГДЕЁЖЗИКЛМНОПРСТУФХЦШЩЬЪЫЭЮЯабвгдеёжзиклмнопрстуфхцчшщьыъэюя-123456789");
+		for (int p = i; p <= s + i+1; p++) {
+			if (buf.GetAt(p) == '\n') {
+				buf.SetAt(p, ' ');
+			}
+		}
 		if (buf.GetAt(i) != '@') {
 			if (buf.GetAt(i) != ' ') {
 				buf.Delete(i);
@@ -269,12 +292,19 @@ void CDocConverterApp::CPointThis(const CString& elem, int& pos, int&i, CString&
 		}
 		return;
 	}
+	return;
 }
-void CDocConverterApp::CPointNext(const CString& elem, int& pos, int&i, CString& buf) {
+void CPointNextK(const CString& elem, int& pos, int&i, CString& buf) {
 	int j;
 	j = buf.Find(elem, i);
 	if (j != -1 && j < pos) {
 		i = j + elem.GetLength();
+		int s = buf.Mid(i+1).FindOneOf(L"АБВГДЕЁЖЗИКЛМНОПРСТУФХЦШЩЬЪЫЭЮЯабвгдеёжзиклмнопрстуфхцчшщьыъэюя-123456789");
+		for (int p = i; p <= s + i+1; p++) {
+			if (buf.GetAt(p) == '\n') {
+				buf.SetAt(p, ' ');
+			}
+		}
 		if (buf.GetAt(i) != '@') {
 			if (buf.GetAt(i) != ' ') {
 				buf.Delete(i);
@@ -283,6 +313,7 @@ void CDocConverterApp::CPointNext(const CString& elem, int& pos, int&i, CString&
 		}
 		return;
 	}
+	return;
 }
 void CDocConverterApp::CFillThisWeekArr() {
 	m_arrThisWeek.push_back(m_listThis.m_tw1);
