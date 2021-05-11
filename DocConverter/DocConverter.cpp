@@ -144,6 +144,21 @@ bool CDocConverterApp::CRead(const CString &buffer) {
 			m_planFlag = false;
 		}
 	}
+	for (const auto &elem : m_arrWorker) {
+		int flag = 0;
+		for (const auto &element : m_arr) {
+			if (elem == element.GetName()) {
+				flag = 1;
+			}	
+		}
+		if (flag == 0) {
+			CPlan Node;
+			Node.SetName(elem);
+			Node.SetThis_Week(L" ");
+			Node.SetNext_Week(L" ");
+			m_arr.push_back(Node);
+		}
+	}
 	return !m_arr.empty();
 }
 
@@ -356,6 +371,8 @@ void CDocConverterApp::CFillWorkerArr() {
 	m_arrWorker.push_back(m_listWorker.m_w12);
 	m_arrWorker.push_back(m_listWorker.m_w13);
 	m_arrWorker.push_back(m_listWorker.m_w14);
+	m_arrWorker.push_back(m_listWorker.m_w15);
+	m_arrWorker.push_back(m_listWorker.m_w16);
 }
 void CDocConverterApp::CFillWorkerPresArr() {
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp1);
@@ -372,6 +389,8 @@ void CDocConverterApp::CFillWorkerPresArr() {
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp12);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp13);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp14);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp15);
+	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp16);
 }
 
 

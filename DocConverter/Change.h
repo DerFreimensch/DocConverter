@@ -38,6 +38,8 @@ public:
 	CString m_w12;
 	CString m_w13;
 	CString m_w14;
+	CString m_w15;
+	CString m_w16;
 	c_m_Worker();
 };
 class c_m_WorkerPres {
@@ -56,6 +58,8 @@ public:
 	CString m_wp12;
 	CString m_wp13;
 	CString m_wp14;
+	CString m_wp15;
+	CString m_wp16;
 	c_m_WorkerPres();
 };
 class CPlan {
