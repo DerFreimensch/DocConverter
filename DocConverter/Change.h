@@ -6,6 +6,7 @@ public:
 	CString m_tw1;
 	CString m_tw2;
 	CString m_tw3;
+	CString m_tw4;
 	c_m_thisWeek();
 };
 class c_m_nextWeek {
@@ -18,6 +19,7 @@ public:
 	CString m_nw6;
 	CString m_nw7;
 	CString m_nw8;
+	CString m_nw9;
 	c_m_nextWeek();
 };
 class c_m_Worker {

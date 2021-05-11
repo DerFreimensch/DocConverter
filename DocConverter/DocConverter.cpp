@@ -328,6 +328,7 @@ void CDocConverterApp::CFillThisWeekArr() {
 	m_arrThisWeek.push_back(m_listThis.m_tw1);
 	m_arrThisWeek.push_back(m_listThis.m_tw2);
 	m_arrThisWeek.push_back(m_listThis.m_tw3);
+	m_arrThisWeek.push_back(m_listThis.m_tw4);
 }
 void CDocConverterApp::CFillNextWeekArr() {
 	m_arrNextWeek.push_back(m_listNext.m_nw1);
@@ -338,6 +339,7 @@ void CDocConverterApp::CFillNextWeekArr() {
 	m_arrNextWeek.push_back(m_listNext.m_nw6);
 	m_arrNextWeek.push_back(m_listNext.m_nw7);
 	m_arrNextWeek.push_back(m_listNext.m_nw8);
+	m_arrNextWeek.push_back(m_listNext.m_nw9);
 }
 void CDocConverterApp::CFillWorkerArr() {
 	m_arrWorker.push_back(m_listWorker.m_w1);

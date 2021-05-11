@@ -65,6 +65,7 @@ c_m_thisWeek::c_m_thisWeek() {
 	m_tw1 = L"На этой неделе";
 	m_tw2 = L"Эта неделя";
 	m_tw3 = L"эта неделя";
+	m_tw4 = L"Эта";
 }
 c_m_nextWeek::c_m_nextWeek() {
 	m_nw1 = L"Следующая неделя";
@@ -75,6 +76,7 @@ c_m_nextWeek::c_m_nextWeek() {
 	m_nw6 = L"След неделя";
 	m_nw7 = L"На след. неделе";
 	m_nw8 = L"след. неделя";
+	m_nw9 = L"Следующая";
 }
 c_m_Worker::c_m_Worker() {
 	m_w1 = L"Настя КИТ Норина";
