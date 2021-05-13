@@ -215,8 +215,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Desktop\document.bmp" />
+    <Image Include="..\..\..\..\Desktop\document.ico" />
     <Image Include="res\DocConverter.ico" />
-    <Image Include="res\icon1.ico" />
+    <Image Include="res\document.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

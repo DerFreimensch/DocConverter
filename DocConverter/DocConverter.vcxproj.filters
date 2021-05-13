@@ -65,10 +65,13 @@
     <Image Include="res\DocConverter.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="res\icon1.ico">
+    <Image Include="..\..\..\..\Desktop\document.bmp">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="..\..\..\..\Desktop\document.bmp">
+    <Image Include="..\..\..\..\Desktop\document.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="res\document.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

@@ -199,6 +199,7 @@ void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posN
 			}
 		}
 		if (ptr == -1) {
+			theApp.m_arr.back().Next_WeekFunc(L" ");
 			theApp.m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
 
 		}
@@ -214,6 +215,7 @@ void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posN
 			}
 		}
 		if (ptr == -1) {
+			theApp.m_arr.back().This_WeekFunc(L" ");
 			theApp.m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
 		}
 	}
@@ -234,6 +236,7 @@ void CDocConverterApp::COutput() {
 	sPath = sFile.Left(pos + 1);
 	sPath = sPath + _T("Output.csv");
 	output.Open(sPath, CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
+	output.WriteString(L"№ ; Сотрудник; Темы этой недели; Темы следующей недели \n");
 	for (const auto& element : m_temp) {
 		for (const auto &elem : m_arr) { //для всех элементов из m_arr
 			if (element == elem.GetName()) {
@@ -246,7 +249,7 @@ void CDocConverterApp::COutput() {
 				output.WriteString(elem.GetThis_Week());
 				output.WriteString(L"\";\"");
 				output.WriteString(elem.GetNext_Week());
-				output.WriteString(L"\";\n");
+				output.WriteString(L"\"\n");
 			}
 		}
 	}
@@ -304,7 +307,7 @@ void CPointThisK(const CString& elem, int& pos, int&i, CString& buf) {
 		i = j + elem.GetLength();
 		int s = buf.Mid(i+1).FindOneOf(L"АБВГДЕЁЖЗИКЛМНОПРСТУФХЦШЩЬЪЫЭЮЯабвгдеёжзиклмнопрстуфхцчшщьыъэюя-123456789");
 		for (int p = i; p <= s + i+1; p++) {
-			if (buf.GetAt(p) == '\n') {
+			if (buf.GetAt(p) == '\r') {
 				buf.SetAt(p, ' ');
 			}
 		}
@@ -325,7 +328,7 @@ void CPointNextK(const CString& elem, int& pos, int&i, CString& buf) {
 		i = j + elem.GetLength();
 		int s = buf.Mid(i+1).FindOneOf(L"АБВГДЕЁЖЗИКЛМНОПРСТУФХЦШЩЬЪЫЭЮЯабвгдеёжзиклмнопрстуфхцчшщьыъэюя-123456789");
 		for (int p = i; p <= s + i+1; p++) {
-			if (buf.GetAt(p) == '\n') {
+			if (buf.GetAt(p) == '\r') {
 				buf.SetAt(p, ' ');
 			}
 		}

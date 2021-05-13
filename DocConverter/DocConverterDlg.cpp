@@ -12,7 +12,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 // Диалоговое окно CAboutDlg используется для описания сведений о приложении
 
 class CAboutDlg : public CDialogEx
@@ -54,7 +53,7 @@ CDocConverterDlg::CDocConverterDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DOCCONVERTER_DIALOG, pParent)
 	, m_text(_T(""))
 {
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_hIcon = AfxGetApp()->LoadIcon(IDR_DOC);
 }
 
 void CDocConverterDlg::DoDataExchange(CDataExchange* pDX)
@@ -180,7 +179,7 @@ void CDocConverterDlg::OnBnClickedButton1()
 	//GetDlgItemText(IDC_EDIT1, m_text);
 	UpdateData(TRUE);
 	m_text += '[';
-	m_text.Replace('\r', ' ');
+	m_text.Replace('\n', ' ');
 	m_text.Replace('"', '\'');
 	theApp.CFillThisWeekArr();
 	theApp.CFillNextWeekArr();
@@ -195,7 +194,7 @@ void CDocConverterDlg::OnBnClickedButton1()
 		AfxMessageBox(L"Что то не так!");
 	}
 
-	UpdateData(FALSE);
+	//UpdateData(FALSE);
 }
 
 
@@ -209,3 +208,4 @@ void CDocConverterDlg::OnEnChangeEdit1()
 	// TODO:  Добавьте код элемента управления
 	
 }
+
