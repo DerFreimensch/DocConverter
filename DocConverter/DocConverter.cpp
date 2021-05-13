@@ -216,7 +216,7 @@ void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posN
 		}
 		if (ptr == -1) {
 			theApp.m_arr.back().This_WeekFunc(L" ");
-			theApp.m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
+			theApp.m_arr.back().Next_WeekFunc(buffer.Mid(m_posThis + 1, m_posWrite - m_posThis - 3));
 		}
 	}
 	else {
