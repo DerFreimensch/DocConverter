@@ -20,12 +20,12 @@ void CPlan::SetName(const CString &buffer) {
 	m_name = buffer;
 }
 void CPlan::SetThis_Week(const CString &buffer) {
-	m_thisWeek.Empty();
-	m_thisWeek = buffer;
+	//m_thisWeek.Empty();
+	m_thisWeek = m_thisWeek + buffer;
 }
 void CPlan::SetNext_Week(const CString &buffer) {
-	m_nextWeek.Empty();
-	m_nextWeek = buffer;
+	//m_nextWeek.Empty();
+	m_nextWeek = m_nextWeek + buffer;
 }
 CString CPlan::GetName() const {
 	return m_name;
@@ -71,12 +71,13 @@ c_m_nextWeek::c_m_nextWeek() {
 	m_nw1 = L"Следующая неделя";
 	m_nw2 = L"На следующей неделе";
 	m_nw3 = L"След. неделя";
-	m_nw4 = L"След.нeделя";
+	m_nw4 = L"След.неделя";
 	m_nw5 = L"След.Неделя";
 	m_nw6 = L"След неделя";
 	m_nw7 = L"На след. неделе";
 	m_nw8 = L"след. неделя";
 	m_nw9 = L"Следующая";
+
 }
 c_m_Worker::c_m_Worker() {
 	m_w1 = L"Настя КИТ Норина";

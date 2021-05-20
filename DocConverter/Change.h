@@ -20,6 +20,7 @@ public:
 	CString m_nw7;
 	CString m_nw8;
 	CString m_nw9;
+	CString m_nw10;
 	c_m_nextWeek();
 };
 class c_m_Worker {
