@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <list>
+
 class c_m_thisWeek {
 public:
 	CString m_tw1;
@@ -20,7 +21,7 @@ public:
 	CString m_nw7;
 	CString m_nw8;
 	CString m_nw9;
-	CString m_nw10;
+	
 	c_m_nextWeek();
 };
 class c_m_Worker {
@@ -62,6 +63,17 @@ public:
 	CString m_wp15;
 	CString m_wp16;
 	c_m_WorkerPres();
+};
+class CData {
+private:
+	int Day;
+	int Month;
+	CString TW, NW;
+public:
+	CData();
+	CString MakeThisWeek();
+	CString MakeNextWeek();
+
 };
 class CPlan {
 private:

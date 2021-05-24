@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include "DocConverter.h"
+#include <ctime>
 
 
 CPlan::CPlan() {
@@ -77,7 +78,6 @@ c_m_nextWeek::c_m_nextWeek() {
 	m_nw7 = L"На след. неделе";
 	m_nw8 = L"след. неделя";
 	m_nw9 = L"Следующая";
-
 }
 c_m_Worker::c_m_Worker() {
 	m_w1 = L"Настя КИТ Норина";
@@ -116,3 +116,69 @@ c_m_WorkerPres::c_m_WorkerPres() {
 	m_wp16 = L"Марков Константин";
 }
 
+CData::CData(){
+	struct tm nowtime;
+	time_t t = time(NULL);
+	localtime_s(&nowtime, &t);
+	Day = nowtime.tm_mday;
+	Month = (nowtime.tm_mon + 1);
+}
+
+CString CData::MakeThisWeek() {
+	CString D1, D2, Mon1, Mon2;
+	int k;
+	if (Month == 1 || Month == 3 || Month == 5 || Month == 7 || Month == 8 || Month == 10 || Month == 12) {
+		k = 31;
+	}
+	else if(Month ==2){
+		k = 28;
+	}
+	else {
+		k=30;
+	}
+	if ((Day - 4) < 1) {
+		D1.Format(L"%d", Day+k-4);
+		Mon1.Format(L"%d", Month-1);
+	}
+	else {
+		D1.Format(L"%d", Day - 4);
+		Mon1.Format(L"%d", Month);
+	}
+	D2.Format(L"%d", Day);
+	Mon2.Format(L"%d", Month);
+	TW = D1 + L"." + Mon1 + ' ' + '-' + ' ' + D2 + '.' + Mon2;
+	return TW;
+}
+CString CData::MakeNextWeek() {
+	CString D1, D2, Mon1, Mon2;
+	int k;
+	if (Month == 1 || Month == 3 || Month == 5 || Month == 7 || Month == 8 || Month == 10 || Month == 12) {
+		k = 31;
+	}
+	else if (Month == 2) {
+		k = 28;
+	}
+	else {
+		k = 30;
+	}
+	if ((Day + 3) > k) {
+		D1.Format(L"%d", Day - k + 3);
+		Mon1.Format(L"%d", Month + 1);
+
+	}
+	else {
+		D1.Format(L"%d", Day + 3);
+		Mon1.Format(L"%d", Month);
+	}
+	if ((Day + 7) > k) {
+		D2.Format(L"%d", Day - k + 7);
+		Mon2.Format(L"%d", Month + 1);
+
+	}
+	else {
+		D2.Format(L"%d", Day + 7);
+		Mon2.Format(L"%d", Month);
+	}
+	NW = D1 + L"." + Mon1 + ' ' + '-' + ' ' + D2 + '.' + Mon2;
+	return NW;
+}
