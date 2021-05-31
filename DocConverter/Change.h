@@ -26,7 +26,6 @@ public:
 };
 class c_m_Worker {
 public:
-	CString m_w1;
 	CString m_w2;
 	CString m_w3;
 	CString m_w4;
@@ -46,7 +45,6 @@ public:
 };
 class c_m_WorkerPres {
 public:
-	CString m_wp1;
 	CString m_wp2;
 	CString m_wp3;
 	CString m_wp4;

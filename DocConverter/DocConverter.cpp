@@ -269,6 +269,15 @@ void CDocConverterApp::COutput() {
 	output.WriteString(L". План по работе на неделю: ");
 	output.WriteString(newData.MakeNextWeek());
 	output.WriteString(L".\\par}");
+	output.WriteString(L"\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ");
+	output.WriteString(L"№");
+	output.WriteString(L" \\cell \\pard \\intbl ");
+	output.WriteString(L"Сотрудник");
+	output.WriteString(L" \\cell \\pard  \\intbl ");
+	output.WriteString(L"Эта неделя");
+	output.WriteString(L" \\cell \\pard  \\intbl ");
+	output.WriteString(L"Следующая неделя");
+	output.WriteString(L" \\cell \\pard  \\intbl \\row ");
 	for (const auto& element : m_temp) {
 		for (const auto &elem : m_arr) { //для всех элементов из m_arr
 			if (element == elem.GetName()) {
@@ -394,7 +403,6 @@ void CDocConverterApp::CFillNextWeekArr() {
 	m_arrNextWeek.push_back(m_listNext.m_nw9);
 }
 void CDocConverterApp::CFillWorkerArr() {
-	m_arrWorker.push_back(m_listWorker.m_w1);
 	m_arrWorker.push_back(m_listWorker.m_w2);
 	m_arrWorker.push_back(m_listWorker.m_w3);
 	m_arrWorker.push_back(m_listWorker.m_w4);
@@ -403,7 +411,6 @@ void CDocConverterApp::CFillWorkerArr() {
 	m_arrWorker.push_back(m_listWorker.m_w7);
 	m_arrWorker.push_back(m_listWorker.m_w8);
 	m_arrWorker.push_back(m_listWorker.m_w9);
-	m_arrWorker.push_back(m_listWorker.m_w10);
 	m_arrWorker.push_back(m_listWorker.m_w11);
 	m_arrWorker.push_back(m_listWorker.m_w12);
 	m_arrWorker.push_back(m_listWorker.m_w13);
@@ -412,7 +419,6 @@ void CDocConverterApp::CFillWorkerArr() {
 	m_arrWorker.push_back(m_listWorker.m_w16);
 }
 void CDocConverterApp::CFillWorkerPresArr() {
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp1);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp2);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp3);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp4);
@@ -421,7 +427,6 @@ void CDocConverterApp::CFillWorkerPresArr() {
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp7);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp8);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp9);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp10);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp11);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp12);
 	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp13);
