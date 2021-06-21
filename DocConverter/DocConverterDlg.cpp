@@ -6,7 +6,10 @@
 #include "framework.h"
 #include "DocConverter.h"
 #include "DocConverterDlg.h"
+#include "Change.h"
 #include "afxdialogex.h"
+
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -181,10 +184,8 @@ void CDocConverterDlg::OnBnClickedButton1()
 	m_text += '[';
 	m_text.Replace('\n', ' ');
 	m_text.Replace('"', '\'');
-	theApp.CFillThisWeekArr();
-	theApp.CFillNextWeekArr();
-	theApp.CFillWorkerArr();
-	theApp.CFillWorkerPresArr();
+	CString config = L"\\\\KIT-FILE\\Temp\\СФО\\config.txt";
+	theApp.NodeList.makeList(config);
 	//CDialogEx::OnOK();
 	if (theApp.CRead(theApp.CPointChange(m_text))) {
 		theApp.COutput();

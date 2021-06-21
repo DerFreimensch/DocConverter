@@ -6,6 +6,7 @@
 #include "framework.h"
 #include "DocConverter.h"
 #include "DocConverterDlg.h"
+#include "Change.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -154,7 +155,7 @@ bool CDocConverterApp::CRead(const CString &buffer) {
 			m_planFlag = false;
 		}
 	}
-	for (const auto &elem : m_arrWorkerPres) {
+	for (const auto &elem : NodeList.DocName) { // add DocName list
 		int flag = 0;
 		for (const auto &element : m_arr) {
 			if (elem == element.GetName()) {
@@ -181,7 +182,7 @@ void CPosSetting(const CString& buffer, int& m_posThis, int& m_posNext, int& m_p
 	}
 }
 bool CFindThisWeek(const CString& buffer, const int& i, const int& m_posThis) {
-	for (const auto& elem : theApp.m_arrThisWeek) {
+	for (const auto& elem : theApp.NodeList.ThisWeek) { // add ThisWeek list
 		int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
 		if (k != -1) {
 			return true;
@@ -190,7 +191,7 @@ bool CFindThisWeek(const CString& buffer, const int& i, const int& m_posThis) {
 	return false;
 }
 bool CFindNextWeek(const CString& buffer, const int& i, const int& m_posThis) {
-	for (const auto& elem : theApp.m_arrNextWeek) {
+	for (const auto& elem : theApp.NodeList.NextWeek) { //add NextWeek list
 		int k = buffer.Mid(i + 1, m_posThis - i).Find(elem);
 		if (k != -1) {
 			return true;
@@ -203,7 +204,7 @@ void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posN
 	const bool& m_flagThis, const bool& m_flagNext, const int& i, bool m_flagSame) {
 	if (m_flagThis) {
 		int ptr;
-		for (const auto& first : theApp.m_arrNextWeek) {
+		for (const auto& first : theApp.NodeList.NextWeek) { // add NextWeek list
 			ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
 			if (ptr != -1) {
 				theApp.m_arr.back().This_WeekFunc(buffer.Mid(m_posThis + 1, ptr - 2));
@@ -223,7 +224,7 @@ void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posN
 	}
 	else if (m_flagNext) {
 		int ptr;
-		for (const auto& first : theApp.m_arrThisWeek) {
+		for (const auto& first : theApp.NodeList.ThisWeek) { // add ThisWeek list
 			ptr = buffer.Mid(m_posThis, m_posNext + 1 - m_posThis).Find(first);
 			if (ptr != -1) {
 				theApp.m_arr.back().Next_WeekFunc(buffer.Mid(m_posThis + 1, ptr - 2));
@@ -251,7 +252,7 @@ void CWriteInList(const CString& buffer, const int& m_posThis, const int& m_posN
 
 void CDocConverterApp::COutput() {
 	CData newData;
-	EnoughPeople(m_arr, m_arrWorkerPres);
+	EnoughPeople(m_arr, NodeList.DocName); //add DocName list
 	std::list<CString> m_temp = theApp.CSort();
 	CStdioFile output;
 	CString sFile, sPath, sNumber;
@@ -259,7 +260,7 @@ void CDocConverterApp::COutput() {
 	GetModuleFileName(NULL, sFile.GetBufferSetLength(MAX_PATH), MAX_PATH);// поиск пути к файлу
 	int pos = sFile.ReverseFind('\\');
 	sPath = sFile.Left(pos + 1);
-	sPath = sPath + _T("Output.rtf");
+	sPath = sPath + _T("Отчет по работе отдела разработки ПО.rtf");
 	output.Open(sPath, CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
 //	output.WriteString(L"№ ; Сотрудник; Темы этой недели; Темы следующей недели \n");
 	output.WriteString(L"{\\rtf1 \n \\par ");
@@ -315,13 +316,13 @@ CString CDocConverterApp::CPointChange(const CString &buffer){
 void CViewWholeBuffer(int& pos, int& i, int& count, CString &buf) {
 	while (pos < count - 1) {
 		pos = buf.Find('[', pos + 1);
-		for (const auto &elem : theApp.m_arrWorker) {
+		for (const auto &elem : theApp.NodeList.Name) { //add Name list
 			CPointNameK(elem, pos, i, buf);
 		}
-		for (const auto& elem : theApp.m_arrThisWeek) {
+		for (const auto& elem : theApp.NodeList.ThisWeek) { // add ThisWeek list
 			CPointThisK(elem, pos, i, buf);
 		}
-		for (const auto& element : theApp.m_arrNextWeek) {
+		for (const auto& element : theApp.NodeList.NextWeek) { //add NextWeek list
 			CPointNextK(element, pos, i, buf);
 		}
 	}
@@ -385,70 +386,21 @@ void CPointNextK(const CString& elem, int& pos, int&i, CString& buf) {
 	}
 	return;
 }
-void CDocConverterApp::CFillThisWeekArr() {
-	m_arrThisWeek.push_back(m_listThis.m_tw1);
-	m_arrThisWeek.push_back(m_listThis.m_tw2);
-	m_arrThisWeek.push_back(m_listThis.m_tw3);
-	m_arrThisWeek.push_back(m_listThis.m_tw4);
-}
-void CDocConverterApp::CFillNextWeekArr() {
-	m_arrNextWeek.push_back(m_listNext.m_nw1);
-	m_arrNextWeek.push_back(m_listNext.m_nw2);
-	m_arrNextWeek.push_back(m_listNext.m_nw3);
-	m_arrNextWeek.push_back(m_listNext.m_nw4);
-	m_arrNextWeek.push_back(m_listNext.m_nw5);
-	m_arrNextWeek.push_back(m_listNext.m_nw6);
-	m_arrNextWeek.push_back(m_listNext.m_nw7);
-	m_arrNextWeek.push_back(m_listNext.m_nw8);
-	m_arrNextWeek.push_back(m_listNext.m_nw9);
-}
-void CDocConverterApp::CFillWorkerArr() {
-	m_arrWorker.push_back(m_listWorker.m_w2);
-	m_arrWorker.push_back(m_listWorker.m_w3);
-	m_arrWorker.push_back(m_listWorker.m_w4);
-	m_arrWorker.push_back(m_listWorker.m_w5);
-	m_arrWorker.push_back(m_listWorker.m_w6);
-	m_arrWorker.push_back(m_listWorker.m_w7);
-	m_arrWorker.push_back(m_listWorker.m_w8);
-	m_arrWorker.push_back(m_listWorker.m_w9);
-	m_arrWorker.push_back(m_listWorker.m_w11);
-	m_arrWorker.push_back(m_listWorker.m_w12);
-	m_arrWorker.push_back(m_listWorker.m_w13);
-	m_arrWorker.push_back(m_listWorker.m_w14);
-	m_arrWorker.push_back(m_listWorker.m_w15);
-	m_arrWorker.push_back(m_listWorker.m_w16);
-}
-void CDocConverterApp::CFillWorkerPresArr() {
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp2);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp3);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp4);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp5);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp6);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp7);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp8);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp9);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp11);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp12);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp13);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp14);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp15);
-	m_arrWorkerPres.push_back(m_listWorkerPres.m_wp16);
-}
 
 
 std::list<CString> CDocConverterApp::CSort() {
 	std::list<CString> m_temp;
-	for (int k = 0; k < m_arrWorkerPres.size(); k++) {
+	for (int k = 0; k < NodeList.DocName.size(); k++) { //add DocName list
 		m_temp.push_back(L"ЯЯ");
-		for (auto& elem : m_arrWorkerPres) {
+		for (auto& elem : NodeList.DocName) { //add DocName list
 			if (m_temp.back() > elem) {
 				m_temp.pop_back();
 				m_temp.push_back(elem);
 			}
 		}
 		std::list<CString>::iterator it;
-		it = m_arrWorkerPres.begin();
-		while(it != m_arrWorkerPres.end()) {
+		it = NodeList.DocName.begin(); //add DocName list
+		while(it != NodeList.DocName.end()) { //add DocName list
 			if (m_temp.back() == *it) {
 				*it = L"ЯЯЯ";
 			}
@@ -461,14 +413,14 @@ std::list<CString> CDocConverterApp::CSort() {
 bool CThereIsTheSame(std::list <CPlan> m_arr, CString buffer, int i) {
 	int pos = buffer.Find('@', i + 1);
 	int counter = 0;
-	for (const auto& elem : theApp.m_arrWorker) {
+	for (const auto& elem : theApp.NodeList.Name) { // add Name list
 		int k = buffer.Mid(i + 1, pos - 1 - i).Find(elem);
 		if (k != -1) {
 			break;
 		}
 		counter++;
 	}
-	for (const auto& elem : theApp.m_arrWorkerPres) {
+	for (const auto& elem : theApp.NodeList.DocName) { // add DocName list
 		if (counter == 0) {
 			for (const auto& element : m_arr) {
 				if (element.GetName() == elem) {
