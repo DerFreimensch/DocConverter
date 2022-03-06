@@ -182,7 +182,6 @@ void CDocConverterDlg::OnBnClickedButton1()
 	//GetDlgItemText(IDC_EDIT1, m_text);
 	UpdateData(TRUE);
 	m_text += '[';
-	m_text.Replace('\n', ' ');
 	m_text.Replace('"', '\'');
 	CString config = L"\\\\KIT-FILE\\Temp\\СФО\\config.txt";
 	theApp.NodeList.makeList(config);

@@ -31,7 +31,7 @@ private:
 	CString m_nextWeek;
 public:
 	CPlan();
-	void Readinto(const CString &buffer);
+	void ReadInfo(const CString &buffer);
 	int NameFunc(const CString &buffer, int i);
 	void This_WeekFunc(const CString &buffer);
 	void Next_WeekFunc(const CString &buffer);

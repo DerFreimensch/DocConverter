@@ -264,33 +264,33 @@ void CDocConverterApp::COutput() {
 	output.Open(sPath, CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyWrite); //1) создаем файл 2) на чтение и запись 3) разрешаем запись
 //	output.WriteString(L"№ ; Сотрудник; Темы этой недели; Темы следующей недели \n");
 	output.WriteString(L"{\\rtf1 \n \\par ");
-	output.WriteString(L"{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qc\\b Отдел разработки ПО\\par}");
-	output.WriteString(L"{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qc Отчет по работе за неделю: ");
+	output.WriteString(L"{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qc\\bОтдел разработки ПО\\par}");
+	output.WriteString(L"{\\viewkind4\\uc1 \\pard\\sa200\\sl276\\slmult1\\qcОтчет по работе за неделю: ");
 	output.WriteString(newData.MakeThisWeek());
 	output.WriteString(L". План по работе на неделю: ");
 	output.WriteString(newData.MakeNextWeek());
 	output.WriteString(L".\\par}");
 	output.WriteString(L"\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ");
 	output.WriteString(L"№");
-	output.WriteString(L" \\cell \\pard \\intbl ");
+	output.WriteString(L" \\cell \\pard \\intbl");
 	output.WriteString(L"Сотрудник");
-	output.WriteString(L" \\cell \\pard  \\intbl ");
+	output.WriteString(L" \\cell \\pard  \\intbl");
 	output.WriteString(L"Эта неделя");
-	output.WriteString(L" \\cell \\pard  \\intbl ");
+	output.WriteString(L" \\cell \\pard  \\intbl");
 	output.WriteString(L"Следующая неделя");
 	output.WriteString(L" \\cell \\pard  \\intbl \\row ");
-	for (const auto& element : m_temp) {
-		for (const auto &elem : m_arr) { //для всех элементов из m_arr
+	for (auto& element : m_temp) {
+		for (auto &elem : m_arr) { //для всех элементов из m_arr
 			if (element == elem.GetName()) {
 				j++;
 				output.WriteString(L"\\trowd \\trql\\trgaph108\\trrh280\\trleft36 \\clbrdrt\\brdrth \\clbrdrl\\brdrth \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx1036\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx3536\\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx7036 \\clbrdrt\\brdrth \\clbrdrl\\brdrdb \\clbrdrb\\brdrdb \\clbrdrr\\brdrdb \\cellx10036\\pard\\intbl ");
 				sNumber.Format(L"%d", j);
 				output.WriteString(sNumber);
-				output.WriteString(L" \\cell \\pard \\intbl ");
+				output.WriteString(L" \\cell \\pard \\intbl");
 				output.WriteString(elem.GetName());
-				output.WriteString(L" \\cell \\pard  \\intbl ");
+				output.WriteString(L" \\cell \\pard  \\intbl");
 				output.WriteString(elem.GetThis_Week());
-				output.WriteString(L" \\cell \\pard  \\intbl ");
+				output.WriteString(L" \\cell \\pard  \\intbl");
 				output.WriteString(elem.GetNext_Week());
 				output.WriteString(L" \\cell \\pard  \\intbl \\row ");
 			}

@@ -12,7 +12,7 @@ CPlan::CPlan() {
 	m_thisWeek = L"";
 	m_nextWeek = L"";
 }
-void CPlan::Readinto(const CString &buffer) {
+void CPlan::ReadInfo(const CString &buffer) {
 	//NameFunc(buffer, );
 	//This_WeekFunc(buffer);
 	//Next_WeekFunc(buffer);
