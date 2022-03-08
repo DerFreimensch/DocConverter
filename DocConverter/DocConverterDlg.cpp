@@ -181,13 +181,16 @@ void CDocConverterDlg::OnBnClickedButton1()
 	// TODO: добавьте свой код обработчика уведомлений
 	//GetDlgItemText(IDC_EDIT1, m_text);
 	UpdateData(TRUE);
+	CString test = L"[]";
 	m_text += '[';
 	m_text.Replace('\n', ' ');
 	m_text.Replace('"', '\'');
-	CString config = L"\\\\KIT-FILE\\Temp\\СФО\\config.txt";
+	test += m_text;
+	CString config = L"C:\\Users\\kdmar\\Desktop\\config — копия.txt";
+	//CString config = L"\\\\KIT-FILE\\Temp\\СФО\\config.txt"; ПОТОМ УБРАТЬ
 	theApp.NodeList.makeList(config);
 	//CDialogEx::OnOK();
-	if (theApp.CRead(theApp.CPointChange(m_text))) {
+	if (theApp.CRead(theApp.CPointChange(test))) {
 		theApp.COutput();
 		AfxMessageBox(L"Готово!"); 
 	}
