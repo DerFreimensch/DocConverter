@@ -30,7 +30,11 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <PlatformToolset>v142</PlatformToolset>
+=======
+    <PlatformToolset>v143</PlatformToolset>
+>>>>>>> 7ce3d3326636220ea2c8a253077e20bcf85cc69d
 =======
     <PlatformToolset>v143</PlatformToolset>
 >>>>>>> 7ce3d3326636220ea2c8a253077e20bcf85cc69d
@@ -41,7 +45,11 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <PlatformToolset>v142</PlatformToolset>
+=======
+    <PlatformToolset>v143</PlatformToolset>
+>>>>>>> 7ce3d3326636220ea2c8a253077e20bcf85cc69d
 =======
     <PlatformToolset>v143</PlatformToolset>
 >>>>>>> 7ce3d3326636220ea2c8a253077e20bcf85cc69d
@@ -53,7 +61,11 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <PlatformToolset>v142</PlatformToolset>
+=======
+    <PlatformToolset>v143</PlatformToolset>
+>>>>>>> 7ce3d3326636220ea2c8a253077e20bcf85cc69d
 =======
     <PlatformToolset>v143</PlatformToolset>
 >>>>>>> 7ce3d3326636220ea2c8a253077e20bcf85cc69d
@@ -64,7 +76,11 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <PlatformToolset>v142</PlatformToolset>
+=======
+    <PlatformToolset>v143</PlatformToolset>
+>>>>>>> 7ce3d3326636220ea2c8a253077e20bcf85cc69d
 =======
     <PlatformToolset>v143</PlatformToolset>
 >>>>>>> 7ce3d3326636220ea2c8a253077e20bcf85cc69d
