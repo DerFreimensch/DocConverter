@@ -124,7 +124,7 @@ bool CDocConverterApp::CRead(const CString &buffer) {
 	bool m_flag = false, m_planFlag = false, m_flagSame = false;
 	int posThis = 0, posNext = 0, pos = 0;
 	for (int i = 0; i < buffer.GetLength(); i++) { // новая запись
-		if (buffer[i] == '[') {
+		if (buffer[i] == '[' || i == 0) {
 			m_flag = true;
 			m_planFlag = true;
 		}
@@ -151,9 +151,10 @@ bool CDocConverterApp::CRead(const CString &buffer) {
 				m_flagNext = CFindNextWeek(buffer, i, m_posThis);
 			}
 			CWriteInList(buffer, m_posThis, m_posNext, m_posWrite, m_flagThis, m_flagNext, i, m_flagSame);
-			i = m_posWrite-1;
+			i = m_posWrite - 1;
 			m_planFlag = false;
 		}
+		if (i == -1) break;
 	}
 	for (const auto &elem : NodeList.DocName) { // add DocName list
 		int flag = 0;
@@ -314,8 +315,24 @@ CString CDocConverterApp::CPointChange(const CString &buffer){
 	return buf;
 }
 void CViewWholeBuffer(int& pos, int& i, int& count, CString &buf) {
+	pos = 0;
+	int a = 2, b = 2;
+	while (a < count - 1 || b != -1) {
+		a = buf.Find('[', b);
+		b = buf.Find(']', a);
+		for (int i = a - 1; i <= b; i++) buf.SetAt(i, ' ');
+	}
+	for (const auto& elem : theApp.NodeList.Name) {
+		int j;
+		j = buf.Find(elem, i);
+		if (j > 0 && buf.GetAt(j - 2) != '[' && buf.GetAt(j - 1) != ']') {
+			buf.Insert(j - 2, '[');
+			buf.Insert(j - 1, ']');
+		}
+	}
+	
 	while (pos < count - 1) {
-		pos = buf.Find('[', pos + 1);
+		//buf.Find('[', pos + 1);
 		for (const auto &elem : theApp.NodeList.Name) { //add Name list
 			CPointNameK(elem, pos, i, buf);
 		}
@@ -325,22 +342,27 @@ void CViewWholeBuffer(int& pos, int& i, int& count, CString &buf) {
 		for (const auto& element : theApp.NodeList.NextWeek) { //add NextWeek list
 			CPointNextK(element, pos, i, buf);
 		}
+		pos = buf.Find('[', pos + 1);
 	}
 	
 }
 
 void CPointNameK(const CString& elem, int& pos, int&i, CString& buf) {
-		int j;
-		j = buf.Find(elem, i);
-		if (j != -1 && j < pos) {
-			i = j + elem.GetLength();
-			if (buf.GetAt(i) != '@') {
-				if (buf.GetAt(i) != ' ') {
-					buf.Delete(i);
-				}
-				buf.Insert(i, '@');
+	/*int a, b;
+	a = buf.Find('[', i);
+	b = buf.Find(']', a);
+	for (int k = a; k <= b; k++) buf.Delete(k);*/
+	int j;
+	j = buf.Find(elem, i);
+	if (j != -1 && j < pos) {
+		i = j + elem.GetLength();
+		if (buf.GetAt(i) != '@') {
+			if (buf.GetAt(i) != ' ') {
+				buf.Delete(i);
 			}
-			return;
+			buf.Insert(i, '@');
+		}
+		return;
 	}
 	return;
 }
